@@ -1,0 +1,59 @@
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { cn } from '../lib/utils';
+import { Github, Twitter, Mail } from 'lucide-react';
+import { ABOUT_ME } from '../data';
+
+export default function Layout() {
+  const location = useLocation();
+
+    const navLinks = [
+      { name: 'Home', path: '/' },
+      { name: 'Projects', path: '/projects' },
+      { name: 'Categories', path: '/categories' },
+      { name: 'Search', path: '/search' },
+      { name: 'About', path: '/about' }
+    ];
+
+  return (
+    <div className="min-h-screen flex flex-col font-sans selection:bg-gray-200 bg-[#FCFCFA] text-[#1A1A1A]">
+      <header className="w-full max-w-6xl mx-auto px-6 md:px-12 py-8 flex justify-between items-center border-b border-gray-100 bg-[#FCFCFA]/80 backdrop-blur-sm sticky top-0 z-10">
+        <Link to="/" className="text-xl font-medium tracking-tight hover:opacity-80 transition-opacity">
+          {ABOUT_ME.name.split(' ')[0]}
+        </Link>
+        <nav className="flex items-center gap-4 md:gap-8 text-sm text-[#717171] uppercase tracking-widest hidden sm:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className={cn(
+                "hover:text-[#1A1A1A] transition-colors pb-1",
+                location.pathname === link.path && "text-[#1A1A1A] border-b border-[#1A1A1A]"
+              )}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+      </header>
+
+      <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-12 py-10">
+        <Outlet />
+      </main>
+
+      <footer className="w-full max-w-6xl mx-auto px-6 md:px-12 py-6 border-t border-gray-100 bg-[#FCFCFA] flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-[#717171] mt-auto">
+        <div>© {new Date().getFullYear()} {ABOUT_ME.name} — Built with Minimalist Intent</div>
+        <div className="flex gap-6 items-center">
+          <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A]">
+            <Github className="w-4 h-4" />
+          </a>
+          <a href={ABOUT_ME.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A]">
+            <Twitter className="w-4 h-4" />
+          </a>
+          <a href={`mailto:${ABOUT_ME.email}`} className="hover:text-[#1A1A1A]">
+            <Mail className="w-4 h-4" />
+          </a>
+        </div>
+      </footer>
+    </div>
+  );
+}
