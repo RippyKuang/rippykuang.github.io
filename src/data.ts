@@ -7,6 +7,7 @@ export interface Post {
   category: string;
   content: string;
   excerpt: string;
+  tags: string[];
 }
 
 export interface Project {
@@ -36,14 +37,15 @@ export const POSTS: Post[] = [];
 export const PROJECTS: Project[] = [];
 
 // Helper to parse markdown files with basic frontmatter
-function parseMarkdown(rawContent: string, defaultId: string) {
+export function parseMarkdown(rawContent: string, defaultId: string) {
   const match = rawContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   
-  let result: Record<string, string> = {
+  let result: Record<string, any> = {
     id: defaultId,
     title: defaultId,
     date: '1970-01-01',
     excerpt: '',
+    tags: [],
     content: rawContent
   };
 
@@ -56,7 +58,11 @@ function parseMarkdown(rawContent: string, defaultId: string) {
       if (colonIdx > -1) {
         const key = line.slice(0, colonIdx).trim();
         const value = line.slice(colonIdx + 1).trim().replace(/^['"]|['"]$/g, '');
-        result[key] = value;
+        if (key === 'tags') {
+           result[key] = value.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+        } else {
+           result[key] = value;
+        }
       }
     }
   }
@@ -76,6 +82,7 @@ for (const path in mdFiles) {
     title: parsed.title, 
     date: parsed.date, 
     category, 
+    tags: parsed.tags,
     content: parsed.content, 
     excerpt: parsed.excerpt 
   });
@@ -105,3 +112,7 @@ PROJECTS.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
 // Automatically calculate all available categories
 export const CATEGORIES = Array.from(new Set(POSTS.map(p => p.category)));
+
+const tagSet = new Set<string>();
+POSTS.forEach(p => p.tags.forEach(t => tagSet.add(t)));
+export const TAGS = Array.from(tagSet).sort();

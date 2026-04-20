@@ -2,6 +2,7 @@
 title: "Polyglot Programming: Syntax Highlighting Demo"
 date: "2026-04-18"
 excerpt: "A quick demonstration of how beautiful our minimalist syntax highlighter looks across different programming languages including TS, Rust, Go, and CSS."
+tags: "后端, React"
 ---
 # Polyglot Programming: Syntax Highlighting Demo
 

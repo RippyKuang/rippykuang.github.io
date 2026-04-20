@@ -10,6 +10,9 @@ import PostPage from './pages/PostPage';
 import Projects from './pages/Projects';
 import ProjectPage from './pages/ProjectPage';
 import Categories from './pages/Categories';
+import CategoryPage from './pages/CategoryPage';
+import ArchivePage from './pages/ArchivePage';
+import TagPage from './pages/TagPage';
 import Search from './pages/Search';
 import About from './pages/About';
 
@@ -23,6 +26,10 @@ export default function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="project/:id" element={<ProjectPage />} />
           <Route path="categories" element={<Categories />} />
+          <Route path="categories/:category" element={<CategoryPage />} />
+          <Route path="tags/:tag" element={<TagPage />} />
+          <Route path="archive" element={<ArchivePage />} />
+          <Route path="archive/:year/:month" element={<ArchivePage />} />
           <Route path="search" element={<Search />} />
           <Route path="about" element={<About />} />
         </Route>

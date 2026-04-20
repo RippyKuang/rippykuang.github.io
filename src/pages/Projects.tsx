@@ -2,8 +2,20 @@ import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data';
 import { motion } from 'motion/react';
 import { Github, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+import Pagination from '../components/Pagination';
+
+const ITEMS_PER_PAGE = 6;
 
 export default function Projects() {
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const totalPages = Math.ceil(PROJECTS.length / ITEMS_PER_PAGE);
+  const currentProjects = PROJECTS.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
@@ -17,7 +29,7 @@ export default function Projects() {
       </header>
 
       <div className="space-y-8">
-        {PROJECTS.map(project => (
+        {currentProjects.map(project => (
           <motion.article 
             key={project.id}
              layout
@@ -63,6 +75,8 @@ export default function Projects() {
           </div>
         )}
       </div>
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
     </motion.div>
   );
 }

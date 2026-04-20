@@ -36,10 +36,15 @@ export default function PostPage() {
       </Link>
 
       <header className="mb-10 space-y-4 pb-10 border-b border-gray-100">
-        <div className="flex items-center gap-3 text-xs text-[#717171]">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-[#717171]">
           <span className="bg-gray-100 px-2 py-0.5 rounded uppercase tracking-wider text-[10px]">
             {post.category}
           </span>
+          {post.tags && post.tags.length > 0 && post.tags.map(tag => (
+            <Link key={tag} to={`/tags/${tag}`} className="border border-gray-200 px-2 py-0.5 rounded uppercase tracking-wider text-[10px] hover:border-gray-300 hover:text-[#1A1A1A] transition-colors">
+              #{tag}
+            </Link>
+          ))}
           <span>•</span>
           <time className="font-mono">{post.date}</time>
         </div>

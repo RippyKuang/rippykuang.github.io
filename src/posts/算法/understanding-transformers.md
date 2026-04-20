@@ -2,6 +2,7 @@
 title: "Understanding Transformers & Self-Attention"
 date: "2026-04-15"
 excerpt: "深入分析 Transformer 架构中的自注意力机制，包含详细的数学公式推导与代码实现。"
+tags: "Python, TypeScript"
 ---
 # Understanding Transformers
 

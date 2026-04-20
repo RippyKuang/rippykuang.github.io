@@ -2,6 +2,7 @@
 title: "使用 Vite 和 Tailwind 快速构建站点"
 date: "2026-04-01"
 excerpt: "记录前端工程化的最佳实践，展示 Vite + React + Tailwind 的极速开发流。"
+tags: "架构, 算法"
 ---
 # 使用 Vite 和 Tailwind 快速构建站点
 
