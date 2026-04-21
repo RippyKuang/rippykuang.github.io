@@ -115,4 +115,5 @@ export const CATEGORIES = Array.from(new Set(POSTS.map(p => p.category)));
 
 const tagSet = new Set<string>();
 POSTS.forEach(p => p.tags.forEach(t => tagSet.add(t)));
-export const TAGS = Array.from(tagSet).sort();
+
+export const TAGS = TECH_STACK;
