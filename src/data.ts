@@ -22,7 +22,7 @@ export interface Project {
 
 export const ABOUT_ME = {
   name: "Kuang",
-  bio: "保持好奇，保持热爱。致力于构建高性能、易维护的系统。",
+  bio: "保持好奇，保持热爱。",
   email: "tentpole@126.com",
   github: "https://github.com/RippyKuang",
 };

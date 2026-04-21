@@ -1,21 +1,17 @@
 ---
-name: "张三 (San Zhang)"
-bio: "保持好奇，保持热爱。致力于构建高性能、易维护的系统。"
-email: "@example.com"
-github: "https://github.com"
+name: "匡帅宇"
+bio: "保持好奇，保持热爱。"
+email: "tentpole@126.com"
+github: "https://github.com/rippykuang"
 wechat: "kuangshuaiyu"
 location: "Based in Harbin"
 role: "Robotic Engineer"
 headline: "Software engineer crafting tools for humans and machines alike."
 ---
 
-Hello! I'm **匡帅宇 (San Zhang)** 。
+你好!, 我是  **匡帅宇 (San Zhang)** 。
 
-This is my personal digital garden where I plant ideas, technical explorations, 
-and random thoughts. I believe in keeping things simple, both in code and in design.
-
-Instead of relying on heavy frameworks for everything, I enjoy the craftsmanship of 
-building robust, fast, and accessible web experiences from scratch.
+这是我的个人主页
 
 ### Experience
 - *2021 - Present* - **Senior Software Engineer** at Tech Corp
