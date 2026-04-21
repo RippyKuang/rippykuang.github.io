@@ -30,16 +30,13 @@ export default function Projects() {
 
       <div className="space-y-8">
         {currentProjects.map(project => (
-          <motion.article 
+          <article 
             key={project.id}
-             layout
-             initial={{ opacity: 0, y: 10 }}
-             animate={{ opacity: 1, y: 0 }}
-            className="group block rounded-md border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all space-y-4"
+             className="group block bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-[0_8px_16px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 cursor-pointer"
           >
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
               <Link to={`/project/${project.id}`}>
-                 <h2 className="text-xl font-serif italic text-[#1A1A1A] group-hover:underline underline-offset-4 decoration-gray-300 transition-all">
+                 <h2 className="text-xl font-serif italic text-[#1A1A1A] inline-block bg-gradient-to-r from-gray-300 to-gray-300 bg-[length:0px_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
                   {project.title}
                  </h2>
               </Link>
@@ -55,12 +52,12 @@ export default function Projects() {
               </div>
             </div>
 
-            <Link to={`/project/${project.id}`} className="block">
-              <p className="text-[#717171] leading-relaxed text-sm">
+            <Link to={`/project/${project.id}`} className="block mt-2">
+              <p className="text-sm text-[#717171] line-clamp-2 leading-relaxed">
                 {project.excerpt}
               </p>
             </Link>
-          </motion.article>
+          </article>
         ))}
         {PROJECTS.length === 0 && (
           <div className="py-10 text-center text-[#717171] italic font-serif">

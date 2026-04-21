@@ -44,7 +44,7 @@ export default function Categories() {
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <Link to={`/categories/${item.category}`} className="flex items-center justify-between p-4 rounded-md border border-gray-100 hover:border-gray-300 hover:shadow-sm bg-white transition-all group">
+              <Link to={`/categories/${item.category}`} state={{ from: 'categories' }} className="flex items-center justify-between p-4 rounded-md border border-gray-100 hover:border-gray-300 hover:shadow-sm bg-white transition-all group">
                 <div className="flex items-center gap-3">
                   <Folder className="w-5 h-5 text-[#717171] group-hover:text-[#1A1A1A] transition-colors" />
                   <span className="text-lg font-medium tracking-tight text-[#1A1A1A]">{item.category}</span>

@@ -1,21 +1,37 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { cn } from '../lib/utils';
-import { Github, Twitter, Mail } from 'lucide-react';
+import { Github, Mail, Search } from 'lucide-react';
 import { ABOUT_ME } from '../data';
+import { useState, useEffect } from 'react';
+import CommandPalette from './CommandPalette';
 
 export default function Layout() {
   const location = useLocation();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-    const navLinks = [
-      { name: 'Home', path: '/' },
-      { name: 'Projects', path: '/projects' },
-      { name: 'Categories', path: '/categories' },
-      { name: 'Search', path: '/search' },
-      { name: 'About', path: '/about' }
-    ];
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd+K (Mac) or Ctrl+K (Windows)
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Categories', path: '/categories' },
+    { name: 'About', path: '/about' }
+  ];
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-gray-200 bg-[#FCFCFA] text-[#1A1A1A]">
+      <CommandPalette isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      
       <header className="w-full max-w-6xl mx-auto px-6 md:px-12 py-8 flex justify-between items-center border-b border-gray-100 bg-[#FCFCFA]/80 backdrop-blur-sm sticky top-0 z-10">
         <Link to="/" className="text-xl font-medium tracking-tight hover:opacity-80 transition-opacity shrink-0">
           {ABOUT_ME.name.split(' ')[0]}
@@ -33,6 +49,13 @@ export default function Layout() {
               {link.name}
             </Link>
           ))}
+          <button
+            onClick={() => setIsSearchOpen(true)}
+            className="hover:text-[#1A1A1A] transition-colors pb-1 flex items-center justify-center p-1"
+            aria-label="Search"
+          >
+            <Search className="w-4 h-4" />
+          </button>
         </nav>
       </header>
 
@@ -46,7 +69,6 @@ export default function Layout() {
           <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A]">
             <Github className="w-4 h-4" />
           </a>
-
           <a href={`mailto:${ABOUT_ME.email}`} className="hover:text-[#1A1A1A]">
             <Mail className="w-4 h-4" />
           </a>

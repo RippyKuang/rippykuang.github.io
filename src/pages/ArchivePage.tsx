@@ -87,12 +87,12 @@ export default function ArchivePage() {
                     {/* Timeline dot */}
                     <div className="absolute w-3 h-3 bg-white border-2 border-gray-300 rounded-full -left-[6.5px] top-1.5 group-hover:border-[#1A1A1A] group-hover:bg-[#1A1A1A] transition-colors" />
                     
-                    <Link to={`/post/${post.id}`} className="block">
+                    <Link to={`/post/${post.id}`} className="block relative inline-block">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
                         <time className="text-xs font-mono text-[#717171] shrink-0 w-24">
                           {formattedDate}
                         </time>
-                        <h3 className="text-xl font-serif italic text-[#1A1A1A] group-hover:underline underline-offset-4 decoration-gray-300 transition-all line-clamp-1">
+                        <h3 className="text-xl font-serif italic text-[#1A1A1A] line-clamp-1 bg-gradient-to-r from-gray-300 to-gray-300 bg-[length:0px_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
                           {post.title}
                         </h3>
                       </div>

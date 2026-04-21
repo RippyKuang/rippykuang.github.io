@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Github, Twitter, Mail, MapPin, Briefcase } from 'lucide-react';
+import { Github, Mail, MapPin, Briefcase } from 'lucide-react';
 import { parseMarkdown } from '../data';
 import Markdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -48,12 +48,6 @@ export default function About() {
             <a href={details.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
               <Github className="w-4 h-4" />
               <span className="text-sm">{details.github.replace('https://', '')}</span>
-            </a>
-          )}
-          {details.twitter && (
-            <a href={details.twitter} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
-              <Twitter className="w-4 h-4" />
-              <span className="text-sm">{details.twitter.replace('https://', '')}</span>
             </a>
           )}
         </div>

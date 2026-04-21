@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { POSTS } from '../data';
 import Markdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -12,7 +12,23 @@ import 'katex/dist/katex.min.css';
 
 export default function PostPage() {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const post = POSTS.find(p => p.id === id);
+
+  const isFromSearch = location.state?.from === 'search';
+  const isFromTag = location.state?.from === 'tag';
+
+  const backToUrl = isFromSearch 
+    ? `/search?q=${encodeURIComponent(location.state.query)}&p=${location.state.page}` 
+    : isFromTag
+    ? `/tags/${encodeURIComponent(location.state.tag)}?p=${location.state.page}`
+    : '/';
+
+  const backToText = isFromSearch 
+    ? 'Back to Search' 
+    : isFromTag 
+    ? `Back to #${location.state.tag}` 
+    : 'Back to Home';
 
   if (!post) {
     return (
@@ -30,9 +46,9 @@ export default function PostPage() {
       transition={{ duration: 0.4 }}
       className="max-w-3xl mx-auto"
     >
-      <Link to="/" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717171] hover:text-[#1A1A1A] transition-colors mb-10">
+      <Link to={backToUrl} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717171] hover:text-[#1A1A1A] transition-colors mb-10">
         <ArrowLeft className="w-3 h-3" />
-        Back to Home
+        {backToText}
       </Link>
 
       <header className="mb-10 space-y-4 pb-10 border-b border-gray-100">
@@ -92,9 +108,9 @@ export default function PostPage() {
       </div>
       
       <div className="mt-16 pt-8 border-t border-gray-100">
-        <Link to="/" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717171] hover:text-[#1A1A1A] transition-colors">
+        <Link to={backToUrl} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717171] hover:text-[#1A1A1A] transition-colors">
           <ArrowLeft className="w-3 h-3" />
-          Back to Home
+          {backToText}
         </Link>
       </div>
     </motion.article>

@@ -21,13 +21,13 @@ export interface Project {
 }
 
 export const ABOUT_ME = {
-  name: "Kuang",
-  bio: "保持好奇，保持热爱。",
-  email: "tentpole@126.com",
-  github: "https://github.com/RippyKuang",
+  name: "张三 (San Zhang)",
+  bio: "保持好奇，保持热爱。致力于构建高性能、易维护的系统。",
+  email: "hello@example.com",
+  github: "https://github.com",
 };
 
-export const TECH_STACK = ['C++', 'Python', 'Mujoco', 'RL'];
+export const TECH_STACK = ['React', 'TypeScript', 'Node.js', 'Go', 'Docker', 'Kubernetes', 'PostgreSQL'];
 
 const mdFiles = import.meta.glob('/src/posts/**/*.md', { eager: true, query: '?raw', import: 'default' });
 const projectFiles = import.meta.glob('/src/projects/**/*.md', { eager: true, query: '?raw', import: 'default' });
@@ -114,5 +114,4 @@ export const CATEGORIES = Array.from(new Set(POSTS.map(p => p.category)));
 
 const tagSet = new Set<string>();
 POSTS.forEach(p => p.tags.forEach(t => tagSet.add(t)));
-
 export const TAGS = TECH_STACK;

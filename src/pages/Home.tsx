@@ -2,11 +2,9 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ABOUT_ME, TECH_STACK, POSTS, CATEGORIES, TAGS } from '../data';
 import { cn } from '../lib/utils';
-
-import { motion, AnimatePresence } from 'motion/react'; 
+import { motion, AnimatePresence } from 'motion/react';
 import { parseDate, getArchiveLabel, getLatestOneYearRange } from '../lib/dateUtils';
-
-import { ChevronRight, Archive, Inbox, Mail, Github } from 'lucide-react'; 
+import { ChevronRight, Archive, Inbox, Mail, Github } from 'lucide-react';
 import Pagination from '../components/Pagination';
 
 const POSTS_PER_PAGE = 6;
@@ -87,21 +85,15 @@ export default function Home() {
           <p className="text-2xl leading-relaxed font-serif italic mb-6 text-[#1A1A1A]">
             {ABOUT_ME.bio}
           </p>
-          <div className="flex flex-col gap-2 text-sm text-[#717171]">
-            <div className="flex items-center gap-2">
-            
-              <a href={`mailto:${ABOUT_ME.email}`} className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
-                <Mail className="w-4 h-4" />
-                <span className="text-sm">{ABOUT_ME.email}</span> 
-              </a>
-            </div>
-            <div className="flex items-center gap-2">
-                
-              <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
-                <Github className="w-4 h-4" />
-                <span className="text-sm">{ABOUT_ME.github?.replace('https://', '')}</span>
-              </a>
-            </div>
+          <div className="flex flex-col gap-3 text-sm text-[#717171]">
+            <a href={`mailto:${ABOUT_ME.email}`} className="flex items-center gap-3 hover:text-[#1A1A1A] transition-colors group w-fit">
+              <Mail className="w-4 h-4" />
+              <span className="group-hover:underline underline-offset-4 decoration-gray-300">{ABOUT_ME.email}</span>
+            </a>
+            <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#1A1A1A] transition-colors group w-fit">
+              <Github className="w-4 h-4" />
+              <span className="group-hover:underline underline-offset-4 decoration-gray-300">{ABOUT_ME.github.replace('https://', '')}</span>
+            </a>
           </div>
         </motion.section>
 
@@ -205,36 +197,56 @@ export default function Home() {
         </div>
 
         <div className="space-y-12">
-          {currentPosts.map(post => (
-            <article key={post.id} className="group cursor-pointer">
-              <Link to={`/post/${post.id}`} className="block">
-                <div className="flex justify-between items-baseline mb-2 gap-4">
-                  <h3 className="text-xl group-hover:underline underline-offset-4 decoration-gray-300 transition-all font-serif italic text-[#1A1A1A] line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <time className="text-xs font-mono text-[#717171] shrink-0">{post.date}</time>
-                </div>
-                <div className="flex gap-4 items-center mb-3">
-                  <span className="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-[#717171] uppercase tracking-wider shrink-0">
-                    {post.category}
-                  </span>
-                  {post.tags?.slice(0, 3).map(tag => (
-                    <span key={tag} className="text-[10px] border border-gray-200 px-2 py-0.5 rounded text-[#717171] uppercase tracking-wider shrink-0">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-sm text-[#717171] line-clamp-1">
-                  {post.excerpt}
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={(activeCategory || 'all') + '-' + currentPage}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-12 min-h-[300px]"
+            >
+              {currentPosts.map(post => (
+                <article key={post.id} className="group flex flex-col gap-3">
+                  <div className="flex justify-between items-baseline gap-4">
+                    <Link to={`/post/${post.id}`} className="block relative inline-block">
+                      <h3 className="text-xl font-serif italic text-[#1A1A1A] line-clamp-2 bg-gradient-to-r from-gray-300 to-gray-300 bg-[length:0px_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
+                        {post.title}
+                      </h3>
+                    </Link>
+                    <time className="text-xs font-mono text-[#717171] shrink-0">{post.date}</time>
+                  </div>
+                  <div className="flex gap-2 items-center flex-wrap relative z-10">
+                    <Link 
+                      to={`/categories/${post.category}`}
+                      className="text-[10px] bg-gray-100 px-3 py-1 rounded-full text-[#1A1A1A] uppercase tracking-wider shrink-0 font-medium hover:bg-gray-200 transition-colors"
+                    >
+                      {post.category}
+                    </Link>
+                    {post.tags?.slice(0, 3).map(tag => (
+                      <Link 
+                        to={`/tags/${tag}`} 
+                        key={tag} 
+                        className="text-[10px] border border-gray-200 px-3 py-1 rounded-full text-[#717171] uppercase tracking-wider shrink-0 transition-colors hover:bg-gray-50 hover:text-[#1A1A1A] hover:border-gray-300"
+                      >
+                        {tag}
+                      </Link>
+                    ))}
+                  </div>
+                  <Link to={`/post/${post.id}`} className="block">
+                    <p className="text-sm text-[#717171] line-clamp-1 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                  </Link>
+                </article>
+              ))}
+              {currentPosts.length === 0 && (
+                <p className="text-[#717171] py-8 text-center text-sm border-t border-gray-100 pt-8 mt-12">
+                  No articles found in this category.
                 </p>
-              </Link>
-            </article>
-          ))}
-          {currentPosts.length === 0 && (
-            <p className="text-[#717171] py-8 text-center text-sm border-t border-gray-100 pt-8 mt-12">
-              No articles found in this category.
-            </p>
-          )}
+              )}
+            </motion.div>
+          </AnimatePresence>
           
           <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
