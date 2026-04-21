@@ -94,10 +94,7 @@ export default function Home() {
               <span className="w-4 h-[1px] bg-gray-300"></span>
               <span>{ABOUT_ME.github.replace('https://', '')}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-4 h-[1px] bg-gray-300"></span>
-              <span>{ABOUT_ME.twitter.replace('https://', '')}</span>
-            </div>
+  
           </div>
         </motion.section>
 

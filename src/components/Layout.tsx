@@ -46,9 +46,7 @@ export default function Layout() {
           <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A]">
             <Github className="w-4 h-4" />
           </a>
-          <a href={ABOUT_ME.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A]">
-            <Twitter className="w-4 h-4" />
-          </a>
+
           <a href={`mailto:${ABOUT_ME.email}`} className="hover:text-[#1A1A1A]">
             <Mail className="w-4 h-4" />
           </a>

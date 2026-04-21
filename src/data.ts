@@ -25,7 +25,6 @@ export const ABOUT_ME = {
   bio: "保持好奇，保持热爱。致力于构建高性能、易维护的系统。",
   email: "tentpole@126.com",
   github: "https://github.com/RippyKuang",
-  wechat : "kuangshuaiyu"
 };
 
 export const TECH_STACK = ['React', 'TypeScript', 'Node.js', 'Go', 'Docker', 'Kubernetes', 'PostgreSQL'];
