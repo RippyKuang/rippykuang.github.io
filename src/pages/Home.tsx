@@ -2,10 +2,10 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ABOUT_ME, TECH_STACK, POSTS, CATEGORIES, TAGS } from '../data';
 import { cn } from '../lib/utils';
-// 1. 修复：通常使用 'framer-motion'
-import { motion, AnimatePresence } from 'framer-motion'; 
+
+import { motion, AnimatePresence } from 'motion/react'; 
 import { parseDate, getArchiveLabel, getLatestOneYearRange } from '../lib/dateUtils';
-// 2. 修复：添加缺失的 Mail 和 Github 导入
+
 import { ChevronRight, Archive, Inbox, Mail, Github } from 'lucide-react'; 
 import Pagination from '../components/Pagination';
 
@@ -89,16 +89,14 @@ export default function Home() {
           </p>
           <div className="flex flex-col gap-2 text-sm text-[#717171]">
             <div className="flex items-center gap-2">
-              <span className="w-4 h-[1px] bg-gray-300"></span>
-              {/* 3. 修复：将 details 改为 ABOUT_ME */}
+            
               <a href={`mailto:${ABOUT_ME.email}`} className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
                 <Mail className="w-4 h-4" />
                 <span className="text-sm">{ABOUT_ME.email}</span> 
               </a>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-4 h-[1px] bg-gray-300"></span>
-              {/* 3. 修复：将 details 改为 ABOUT_ME */}
+                
               <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
                 <Github className="w-4 h-4" />
                 <span className="text-sm">{ABOUT_ME.github?.replace('https://', '')}</span>
