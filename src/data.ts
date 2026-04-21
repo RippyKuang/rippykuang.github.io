@@ -27,7 +27,7 @@ export const ABOUT_ME = {
   github: "https://github.com/RippyKuang",
 };
 
-export const TECH_STACK = ['C++', 'Python', 'Mujoco'];
+export const TECH_STACK = ['C++', 'Python', 'Mujoco', 'RL'];
 
 const mdFiles = import.meta.glob('/src/posts/**/*.md', { eager: true, query: '?raw', import: 'default' });
 const projectFiles = import.meta.glob('/src/projects/**/*.md', { eager: true, query: '?raw', import: 'default' });
