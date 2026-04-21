@@ -88,11 +88,17 @@ export default function Home() {
           <div className="flex flex-col gap-2 text-sm text-[#717171]">
             <div className="flex items-center gap-2">
               <span className="w-4 h-[1px] bg-gray-300"></span>
-              <span>{ABOUT_ME.email}</span>
+              <a href={`mailto:${details.email}`} className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
+              <Mail className="w-4 h-4" />
+              <span className="text-sm">{details.email}</span> 
+              </a>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-4 h-[1px] bg-gray-300"></span>
-              <span>{ABOUT_ME.github.replace('https://', '')}</span>
+              <a href={details.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#717171] hover:text-[#1A1A1A] transition-colors w-fit">
+              <Github className="w-4 h-4" />
+              <span className="text-sm">{details.github.replace('https://', '')}</span>
+            </a>
             </div>
   
           </div>
