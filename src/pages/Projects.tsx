@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data';
 import { motion } from 'motion/react';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github } from 'lucide-react';
 import { useState } from 'react';
 import Pagination from '../components/Pagination';
 
@@ -45,18 +45,11 @@ export default function Projects() {
               </Link>
               <div className="flex items-center gap-4 text-xs">
                  <time className="font-mono text-[#717171]">{project.date}</time>
-                 {(project.repo || project.link) && (
+                 {project.repo && (
                    <div className="flex items-center gap-3 border-l border-gray-200 pl-4">
-                     {project.repo && (
-                        <a href={project.repo} target="_blank" rel="noopener noreferrer" className="text-[#717171] hover:text-[#1A1A1A] transition-colors" title="Repository">
-                           <Github className="w-4 h-4" />
-                        </a>
-                     )}
-                     {project.link && (
-                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-[#717171] hover:text-[#1A1A1A] transition-colors" title="Live Link">
-                           <ExternalLink className="w-4 h-4" />
-                        </a>
-                     )}
+                      <a href={project.repo} target="_blank" rel="noopener noreferrer" className="text-[#717171] hover:text-[#1A1A1A] transition-colors" title="Repository">
+                         <Github className="w-4 h-4" />
+                      </a>
                    </div>
                  )}
               </div>
