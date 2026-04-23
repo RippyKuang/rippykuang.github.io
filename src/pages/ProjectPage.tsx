@@ -4,15 +4,31 @@ import Markdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
-import { ArrowLeft, Github, ExternalLink } from 'lucide-react';
-import { motion } from 'motion/react';
+import { ArrowLeft, ArrowUp, Github, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { useEffect, useState } from 'react';
+import { cn } from '../lib/utils';
 import 'katex/dist/katex.min.css';
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>();
   const project = PROJECTS.find(p => p.id === id);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (!project) {
     return (
@@ -24,11 +40,8 @@ export default function ProjectPage() {
   }
 
   return (
-    <motion.article 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="max-w-3xl mx-auto"
+    <article 
+      className="max-w-3xl mx-auto relative animate-in fade-in duration-500"
     >
       <Link to="/projects" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717171] hover:text-[#1A1A1A] transition-colors mb-10">
         <ArrowLeft className="w-3 h-3" />
@@ -40,17 +53,19 @@ export default function ProjectPage() {
           <h1 className="text-3xl sm:text-4xl font-serif italic text-[#1A1A1A] leading-tight">
             {project.title}
           </h1>
-          <time className="font-mono text-[#717171] text-sm shrink-0">{project.date}</time>
+          <time className="font-mono text-[#717171] text-sm shrink-0">
+            {project.startDate} — {project.endDate}
+          </time>
         </div>
-        {(project.repo || project.link) && (
+        {(project.hasGithub || project.hasLiveDemo) && (
           <div className="flex items-center gap-4 text-sm mt-4">
-            {project.repo && (
+            {project.hasGithub && project.repo && (
               <a href={project.repo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-[#1A1A1A] rounded transition-colors">
                 <Github className="w-4 h-4" />
                 <span>Source</span>
               </a>
             )}
-            {project.link && (
+            {project.hasLiveDemo && project.link && (
                <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 bg-[#1A1A1A] hover:bg-[#333] text-white rounded transition-colors">
                  <ExternalLink className="w-4 h-4" />
                  <span>Live Demo</span>
@@ -99,12 +114,23 @@ export default function ProjectPage() {
         </Markdown>
       </div>
       
-      <div className="mt-16 pt-8 border-t border-gray-100">
+      <div className="mt-16 pt-8 border-t border-gray-100 flex justify-between items-center">
         <Link to="/projects" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717171] hover:text-[#1A1A1A] transition-colors">
           <ArrowLeft className="w-3 h-3" />
           Back to Projects
         </Link>
       </div>
-    </motion.article>
+
+      <button 
+        onClick={scrollToTop}
+        className={cn(
+          "fixed bottom-8 right-8 z-40 p-3 rounded-full bg-white border border-gray-200 shadow-sm text-[#717171] hover:text-[#1A1A1A] hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer",
+          showScrollTop ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-4 pointer-events-none"
+        )}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
+    </article>
   );
 }

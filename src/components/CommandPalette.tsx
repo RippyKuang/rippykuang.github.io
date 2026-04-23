@@ -22,7 +22,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
       // Auto focus after a short delay to allow transition
-      setTimeout(() => inputRef.current?.focus(), 100);
+      setTimeout(() => inputRef.current?.focus(), 150);
     }
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
@@ -64,26 +64,34 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
     setQuery('');
   };
 
-  if (!isOpen) return null;
-
   return (
-    <>
-      {/* Backdrop (Darkened / Blurred) */}
-      <div 
-        className="fixed inset-0 bg-[#FCFCFA]/80 backdrop-blur-sm z-40 transition-opacity"
-        onClick={onClose}
-      />
-      
-      {/* Command Palette Modal */}
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4 pointer-events-none">
-        <div 
-          className="w-full max-w-xl bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden pointer-events-auto border border-gray-100 flex flex-col"
-          role="dialog"
-          aria-modal="true"
-        >
-          {/* Search Input Area */}
-          <div className="flex items-center px-4 py-4 border-b border-gray-100">
-            <Search className="w-5 h-5 text-gray-400 shrink-0" />
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop (Darkened / Blurred) */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-[#FCFCFA]/80 backdrop-blur-sm z-40"
+            onClick={onClose}
+          />
+          
+          {/* Command Palette Modal */}
+          <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4 pointer-events-none">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -10 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-xl bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden pointer-events-auto border border-gray-100 flex flex-col"
+              role="dialog"
+              aria-modal="true"
+            >
+              {/* Search Input Area */}
+          <div className="flex items-center px-4 py-4 border-b border-gray-100 group">
+            <Search className="w-5 h-5 text-gray-400 shrink-0 group-focus-within:text-[#1A1A1A] transition-colors" />
             <input
               ref={inputRef}
               type="text"
@@ -95,7 +103,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
             />
             <button 
               onClick={onClose}
-              className="px-2 py-1 bg-gray-100 rounded text-[10px] uppercase tracking-wider text-gray-500 hover:bg-gray-200 transition-colors"
+              className="px-2 py-1 bg-gray-100 rounded text-[10px] uppercase tracking-wider text-gray-500 hover:bg-[#1A1A1A] hover:text-white transition-colors"
             >
               ESC
             </button>
@@ -107,14 +115,15 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
               <div className="p-2 w-full">
                 {results.length > 0 ? (
                   <ul className="space-y-1 w-full">
-                    <AnimatePresence mode="popLayout">
+                    <AnimatePresence mode="popLayout" initial={false}>
                       {results.map((post, idx) => (
                         <motion.li 
+                          layout
                           key={post.id} 
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
-                          transition={{ duration: 0.15, delay: idx * 0.03 }}
+                          transition={{ duration: 0.15, delay: idx * 0.03, layout: { duration: 0.2 } }}
                           className="w-full"
                         >
                           <button 
@@ -152,8 +161,10 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
               </div>
             )}
           </div>
-        </div>
-      </div>
-    </>
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

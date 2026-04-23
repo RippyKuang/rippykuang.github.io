@@ -1,17 +1,26 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, useLocation, useOutlet } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { Github, Mail, Search } from 'lucide-react';
 import { ABOUT_ME } from '../data';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import CommandPalette from './CommandPalette';
 
 export default function Layout() {
   const location = useLocation();
+  const outlet = useOutlet();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const isPostPage = location.pathname.startsWith('/post/');
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Cmd+K (Mac) or Ctrl+K (Windows)
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setIsSearchOpen((prev) => !prev);
@@ -32,6 +41,13 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col font-sans selection:bg-gray-200 bg-[#FCFCFA] text-[#1A1A1A]">
       <CommandPalette isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       
+      {isPostPage && (
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-1 bg-[#1A1A1A] origin-left z-[60] rounded-r-md"
+          style={{ scaleX }}
+        />
+      )}
+
       <header className="w-full max-w-6xl mx-auto px-6 md:px-12 py-8 flex justify-between items-center border-b border-gray-100 bg-[#FCFCFA]/80 backdrop-blur-sm sticky top-0 z-10">
         <Link to="/" className="text-xl font-medium tracking-tight hover:opacity-80 transition-opacity shrink-0">
           {ABOUT_ME.name.split(' ')[0]}
@@ -59,11 +75,25 @@ export default function Layout() {
         </nav>
       </header>
 
-      <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-12 py-10">
-        <Outlet />
+      <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-12 py-10 relative">
+        <AnimatePresence 
+          mode="wait" 
+          onExitComplete={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}
+        >
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, scale: 0.98, filter: 'blur(8px)', y: 10 }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)', y: 0 }}
+            exit={{ opacity: 0, scale: 0.98, filter: 'blur(8px)', y: -10 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full h-full"
+          >
+            {outlet}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      <footer className="w-full max-w-6xl mx-auto px-6 md:px-12 py-6 border-t border-gray-100 bg-[#FCFCFA] flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-[#717171] mt-auto">
+      <footer className="w-full max-w-6xl mx-auto px-6 md:px-12 py-6 border-t border-gray-100 bg-[#FCFCFA] flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-[#717171] mt-auto relative z-10">
         <div className="text-center sm:text-left">© {new Date().getFullYear()} {ABOUT_ME.name} — Built with Minimalist Intent</div>
         <div className="flex gap-6 items-center">
           <a href={ABOUT_ME.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A]">

@@ -13,7 +13,11 @@ export interface Post {
 export interface Project {
   id: string;
   title: string;
-  date: string;
+  startDate: string;
+  endDate: string;
+  hasGithub: boolean;
+  hasLiveDemo: boolean;
+  date: string; // keeping date for backward compatibility just in case
   content: string;
   excerpt: string;
   repo?: string;
@@ -98,16 +102,20 @@ for (const path in projectFiles) {
     id,
     title: parsed.title,
     date: parsed.date,
+    startDate: parsed.startDate || parsed.date,
+    endDate: parsed.endDate || parsed.date,
+    hasGithub: String(parsed.hasGithub).toLowerCase() === 'true',
+    hasLiveDemo: String(parsed.hasLiveDemo).toLowerCase() === 'true',
     content: parsed.content,
     excerpt: parsed.excerpt,
-    repo: parsed.repo,
-    link: parsed.link
+    repo: parsed.repo || ABOUT_ME.github,
+    link: parsed.link || '#'
   });
 }
 
 // Sort both by date descending
 POSTS.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-PROJECTS.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+PROJECTS.sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime());
 
 // Automatically calculate all available categories
 export const CATEGORIES = Array.from(new Set(POSTS.map(p => p.category)));

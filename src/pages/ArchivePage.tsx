@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { POSTS } from '../data';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Archive, Inbox, CalendarDays } from 'lucide-react';
 import { parseDate, getArchiveLabel, CHINESE_MONTHS } from '../lib/dateUtils';
 import { useMemo, useState } from 'react';
@@ -49,6 +49,11 @@ export default function ArchivePage() {
     currentPage * POSTS_PER_PAGE
   );
 
+  const handlePageChange = (p: number) => {
+    setCurrentPage(p);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-12 max-w-5xl mx-auto">
       <motion.div 
@@ -72,43 +77,50 @@ export default function ArchivePage() {
         </header>
 
         {validPosts.length > 0 ? (
-          <>
-            <div className="relative border-l border-gray-200 ml-4 space-y-10 py-4">
-              {currentPosts.map(post => {
-                const date = new Date(post.date);
-                const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                return (
-                  <motion.article 
-                    key={post.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="relative pl-8 group"
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute w-3 h-3 bg-white border-2 border-gray-300 rounded-full -left-[6.5px] top-1.5 group-hover:border-[#1A1A1A] group-hover:bg-[#1A1A1A] transition-colors" />
-                    
-                    <Link to={`/post/${post.id}`} className="block relative inline-block">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
-                        <time className="text-xs font-mono text-[#717171] shrink-0 w-24">
-                          {formattedDate}
-                        </time>
-                        <h3 className="text-xl font-serif italic text-[#1A1A1A] line-clamp-1 bg-gradient-to-r from-gray-300 to-gray-300 bg-[length:0px_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
-                          {post.title}
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-2 mt-2 sm:mt-0 sm:ml-[7rem]">
-                        <span className="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-[#717171] uppercase tracking-wider shrink-0">
-                          {post.category}
-                        </span>
-                      </div>
-                    </Link>
-                  </motion.article>
-                );
-              })}
-            </div>
+          <div className="min-h-[500px] relative">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div 
+                key={currentPage + (year || 'all') + (month || 'all')}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="relative border-l border-gray-200 ml-4 space-y-10 py-4"
+              >
+                {currentPosts.map((post) => {
+                  const date = new Date(post.date);
+                  const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                  return (
+                    <article 
+                      key={post.id}
+                      className="relative pl-8 group transition-all duration-300 hover:pl-10"
+                    >
+                      {/* Timeline dot */}
+                      <div className="absolute w-3 h-3 bg-white border-2 border-gray-300 rounded-full -left-[6.5px] top-1.5 group-hover:border-[#1A1A1A] group-hover:bg-[#1A1A1A] group-hover:scale-[1.5] group-hover:shadow-[0_0_10px_rgba(26,26,26,0.15)] transition-all duration-300 z-10" />
+                      
+                      <Link to={`/post/${post.id}`} className="block relative inline-block w-full">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
+                          <time className="text-xs font-mono text-[#717171] group-hover:text-[#1A1A1A] transition-colors duration-300 shrink-0 w-24">
+                            {formattedDate}
+                          </time>
+                          <h3 className="text-xl font-serif italic text-[#1A1A1A] line-clamp-1 bg-gradient-to-r from-gray-300 to-gray-300 bg-[length:0px_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
+                            {post.title}
+                          </h3>
+                        </div>
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0 sm:ml-[7rem]">
+                          <span className="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-[#717171] uppercase tracking-wider shrink-0">
+                            {post.category}
+                          </span>
+                        </div>
+                      </Link>
+                    </article>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
             
-            <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
-          </>
+            <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={handlePageChange} />
+          </div>
         ) : (
           <div className="py-20 text-center flex flex-col items-center justify-center text-[#717171] space-y-4">
             <Inbox className="w-8 h-8 opacity-50" />

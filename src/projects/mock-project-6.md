@@ -1,6 +1,10 @@
 ---
 title: "Awesome Project 6"
 date: "2025-01-06"
+startDate: "2023-01-01"
+endDate: "2025-01-06"
+hasGithub: true
+hasLiveDemo: true
 excerpt: "This is a mock project used to test pagination on the Projects page."
 repo: "https://github.com/mock/project-6"
 link: "https://project-6.example.com"

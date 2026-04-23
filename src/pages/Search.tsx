@@ -108,16 +108,8 @@ export default function Search() {
           </p>
           
           <div className="space-y-12 min-h-[300px]">
-             <AnimatePresence mode="wait">
-              <motion.div
-                key={query + currentPage}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="space-y-12"
-              >
-                {currentPosts.map(post => (
+              {results.length > 0 ? (
+                currentPosts.map(post => (
                   <article key={post.id} className="group flex flex-col gap-3">
                     <div className="flex justify-between items-baseline gap-4">
                       <Link to={`/post/${post.id}`} state={{ from: 'search', query, page: currentPage }} className="block relative inline-block">
@@ -150,9 +142,12 @@ export default function Search() {
                       </p>
                     </Link>
                   </article>
-                ))}
-              </motion.div>
-             </AnimatePresence>
+                ))
+              ) : (
+                <div className="py-20 text-center text-[#717171] italic font-serif">
+                  No matching results found.
+                </div>
+              )}
           </div>
           
           {results.length > 0 && (

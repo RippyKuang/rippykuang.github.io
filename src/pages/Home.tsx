@@ -65,9 +65,19 @@ export default function Home() {
     currentPage * POSTS_PER_PAGE
   );
 
+  const handlePageChange = (p: number) => {
+    setCurrentPage(p);
+    // 翻页时跳转到列表顶部比较合理
+    const element = document.getElementById('latest-articles');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const handleCategoryFilter = (cat: string | null) => {
     setActiveCategory(cat);
     setCurrentPage(1);
+    // 切换专题时不再强行跳转到顶端，保持当前视口
   };
 
   return (
@@ -137,14 +147,14 @@ export default function Home() {
               </Link>
             </div>
             {archiveData.length > 0 ? (
-               <ul className="space-y-4">
+               <ul className="space-y-1 mt-2">
                  {archiveData.map((item, idx) => (
-                   <li key={`${item.year}-${item.month}`} className="text-sm border-b border-gray-100/60 pb-3 last:border-0 last:pb-0">
-                     <Link to={`/archive/${item.year}/${item.month}`} className="flex justify-between items-center group">
-                       <span className="text-[#717171] group-hover:text-[#1A1A1A] transition-colors font-medium">
+                   <li key={`${item.year}-${item.month}`} className="text-sm">
+                     <Link to={`/archive/${item.year}/${item.month}`} className="flex justify-between items-center group p-2.5 -mx-2.5 rounded-xl hover:bg-white hover:shadow-[0_10px_40px_rgb(0,0,0,0.05)] hover:z-10 relative transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                       <span className="text-[#717171] group-hover:text-[#1A1A1A] group-hover:translate-x-1 group-hover:scale-[1.02] origin-left transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] font-medium">
                          {getArchiveLabel(item.year, item.month)}
                        </span>
-                       <span className="text-xs bg-gray-100 text-[#717171] px-2 py-0.5 rounded-full">
+                       <span className="text-xs bg-gray-100 text-[#717171] group-hover:bg-[#A3A3A3] group-hover:text-white px-2.5 py-0.5 rounded-full transition-colors duration-300">
                          {item.count}
                        </span>
                      </Link>
@@ -162,6 +172,7 @@ export default function Home() {
 
       {/* Articles Section */}
       <motion.section
+        id="latest-articles"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
@@ -196,47 +207,58 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="space-y-12">
-          <AnimatePresence mode="wait" initial={false}>
+        <div className="space-y-12 min-h-[500px] relative">
+          <AnimatePresence mode="popLayout" initial={false}>
             <motion.div
               key={(activeCategory || 'all') + '-' + currentPage}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-12 min-h-[300px]"
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="space-y-4"
             >
-              {currentPosts.map(post => (
-                <article key={post.id} className="group flex flex-col gap-3">
-                  <div className="flex justify-between items-baseline gap-4">
-                    <Link to={`/post/${post.id}`} className="block relative inline-block">
+              {currentPosts.map((post) => (
+                <article 
+                  key={post.id} 
+                  className="group relative flex flex-col gap-2.5 p-5 -mx-5 rounded-3xl scale-[0.93] hover:scale-100 hover:bg-white hover:shadow-[0_15px_40px_rgb(0,0,0,0.06)] hover:z-10 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                >
+                  <div className="flex justify-between items-center gap-4">
+                    <Link to={`/post/${post.id}`} state={{ from: 'home' }} className="block relative inline-block">
                       <h3 className="text-xl font-serif italic text-[#1A1A1A] line-clamp-2 bg-gradient-to-r from-gray-300 to-gray-300 bg-[length:0px_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
                         {post.title}
                       </h3>
                     </Link>
-                    <time className="text-xs font-mono text-[#717171] shrink-0">{post.date}</time>
+                    <time className="text-xs font-mono text-[#717171] shrink-0 whitespace-nowrap py-1 opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+                      {post.date}
+                    </time>
                   </div>
-                  <div className="flex gap-2 items-center flex-wrap relative z-10">
+                  <div className="flex gap-2 items-center flex-nowrap relative z-10 w-full overflow-hidden">
                     <Link 
                       to={`/categories/${post.category}`}
                       className="text-[10px] bg-gray-100 px-3 py-1 rounded-full text-[#1A1A1A] uppercase tracking-wider shrink-0 font-medium hover:bg-gray-200 transition-colors"
                     >
                       {post.category}
                     </Link>
-                    {post.tags?.slice(0, 3).map(tag => (
-                      <Link 
-                        to={`/tags/${tag}`} 
-                        key={tag} 
-                        className="text-[10px] border border-gray-200 px-3 py-1 rounded-full text-[#717171] uppercase tracking-wider shrink-0 transition-colors hover:bg-gray-50 hover:text-[#1A1A1A] hover:border-gray-300"
-                      >
-                        {tag}
-                      </Link>
-                    ))}
+                    <div className="flex gap-2 items-center flex-wrap">
+                      {post.tags?.slice(0, 3).map(tag => (
+                        <Link 
+                          to={`/tags/${tag}`} 
+                          key={tag} 
+                          className="text-[10px] border border-gray-200 px-3 py-1 rounded-full text-[#717171] uppercase tracking-wider shrink-0 transition-colors hover:bg-gray-50 hover:text-[#1A1A1A] hover:border-gray-300 whitespace-nowrap"
+                        >
+                          {tag}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                  <Link to={`/post/${post.id}`} className="block">
-                    <p className="text-sm text-[#717171] line-clamp-1 leading-relaxed">
-                      {post.excerpt}
-                    </p>
+                  <Link to={`/post/${post.id}`} state={{ from: 'home' }} className="block">
+                    <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] opacity-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                      <div className="overflow-hidden">
+                        <p className="text-sm text-[#717171] line-clamp-2 leading-relaxed mt-2">
+                          {post.excerpt}
+                        </p>
+                      </div>
+                    </div>
                   </Link>
                 </article>
               ))}
@@ -248,7 +270,7 @@ export default function Home() {
             </motion.div>
           </AnimatePresence>
           
-          <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={handlePageChange} />
         </div>
       </motion.section>
     </div>

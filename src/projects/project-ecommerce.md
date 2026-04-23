@@ -1,6 +1,10 @@
 ---
 title: "Next.js E-commerce 平台"
 date: "2025-11-20"
+startDate: "2023-01-01"
+endDate: "2025-11-20"
+hasGithub: true
+hasLiveDemo: true
 excerpt: "一个基于 Next.js 14、TailwindCSS 和 Stripe 构建的全栈电商平台体验。"
 repo: "https://github.com/example/ecommerce"
 link: "https://demo-ecommerce.com"

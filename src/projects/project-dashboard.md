@@ -1,6 +1,10 @@
 ---
 title: "React Admin Dashboard"
 date: "2026-01-15"
+startDate: "2023-01-01"
+endDate: "2026-01-15"
+hasGithub: true
+hasLiveDemo: true
 excerpt: "美观、响应式的后台管理面板，使用 D3.js 实现丰富的数据可视化体验。"
 repo: "https://github.com/example/react-admin"
 link: "https://demo-dashboard.com"
