@@ -25,13 +25,13 @@ export interface Project {
 }
 
 export const ABOUT_ME = {
-  name: "张三 (San Zhang)",
-  bio: "保持好奇，保持热爱。致力于构建高性能、易维护的系统。",
-  email: "hello@example.com",
-  github: "https://github.com",
+  name: "Kuang",
+  bio: "保持好奇，保持热爱。",
+  email: "tentpole@126.com",
+  github: "https://github.com/rippykuang",
 };
 
-export const TECH_STACK = ['React', 'TypeScript', 'Node.js', 'Go', 'Docker', 'Kubernetes', 'PostgreSQL'];
+export const TECH_STACK = ['Python', 'C++', 'Mujoco', 'DL', 'RL'];
 
 const mdFiles = import.meta.glob('/src/posts/**/*.md', { eager: true, query: '?raw', import: 'default' });
 const projectFiles = import.meta.glob('/src/projects/**/*.md', { eager: true, query: '?raw', import: 'default' });

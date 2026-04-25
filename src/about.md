@@ -1,21 +1,17 @@
 ---
-name: "张三 (San Zhang)"
-bio: "保持好奇，保持热爱。致力于构建高性能、易维护的系统。"
-email: "hello@example.com"
-github: "https://github.com"
-location: "Based in Earth"
-role: "Software Engineer"
-headline: "Software engineer crafting tools for humans and machines alike."
+name: "Kuang"
+bio: "保持好奇，保持热爱。"
+email: "tentpole@126.com"
+github: "https://github.com/rippykuang"
+location: "Based in Harbin"
+role: "Robotics Engineer"
+headline: "Robotics engineer crafting tools for humans and machines alike."
 ---
 
-Hello! I'm **张三 (San Zhang)**. 保持好奇，保持热爱。致力于构建高性能、易维护的系统。
+欢迎！我是 **Kuang** 。
 
-This is my personal digital garden where I plant ideas, technical explorations, 
-and random thoughts. I believe in keeping things simple, both in code and in design.
-
-Instead of relying on heavy frameworks for everything, I enjoy the craftsmanship of 
-building robust, fast, and accessible web experiences from scratch.
+这是我的个人主页，用来记录我的项目经历和学习记录
 
 ### Experience
-- *2021 - Present* - **Senior Software Engineer** at Tech Corp
-- *2018 - 2021* - **Software Engineer** at Startup Inc
+- *2026 - Present* - **硕士** - 哈尔滨工业大学
+- *2022 - 2026* - **本科** - 哈尔滨工业大学（威海）
