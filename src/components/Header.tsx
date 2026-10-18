@@ -75,27 +75,31 @@ export const Header: React.FC<HeaderProps> = ({
             <Search className="w-4 h-4" />
           </button>
 
-          {/* Nav links (No Home button) */}
-          <nav className="flex items-center gap-1 sm:gap-2 text-[14px] font-normal text-[#262626] dark:text-neutral-300">
+         {/* 右上角导航链接：应用 h2 规范（Inter 字体、700 加粗、14px/24px、#3c3c43） */}
+          <nav className="nav-links-font flex items-center gap-1 sm:gap-2 text-[14px] leading-[24px]">
             <button
               onClick={onNavigateAbout}
-              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#225cd6] dark:hover:text-[#58a6ff] cursor-pointer ${
-                activeView === 'about' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff]' : ''
+              className={`px-2.5 py-1 rounded-md font-bold transition-colors cursor-pointer ${
+                activeView === 'about'
+                  ? 'text-[#3451b2] dark:text-[#a8b1ff]'
+                  : 'text-[#3c3c43] dark:text-[#e6edf3] hover:text-[#3451b2] dark:hover:text-[#a8b1ff]'
               }`}
             >
               About
             </button>
             <button
               onClick={onNavigateTopic}
-              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#225cd6] dark:hover:text-[#58a6ff] cursor-pointer ${
-                activeView === 'topics' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff]' : ''
+              className={`px-2.5 py-1 rounded-md font-bold transition-colors cursor-pointer ${
+                activeView === 'topics'
+                  ? 'text-[#3451b2] dark:text-[#a8b1ff]'
+                  : 'text-[#3c3c43] dark:text-[#e6edf3] hover:text-[#3451b2] dark:hover:text-[#a8b1ff]'
               }`}
             >
               Topic
             </button>
             <button
               onClick={onNavigateLatest}
-              className="px-2.5 py-1 rounded-md transition-colors hover:text-[#225cd6] dark:hover:text-[#58a6ff] cursor-pointer"
+              className="px-2.5 py-1 rounded-md font-bold text-[#3c3c43] dark:text-[#e6edf3] hover:text-[#3451b2] dark:hover:text-[#a8b1ff] transition-colors cursor-pointer"
             >
               Latest
             </button>

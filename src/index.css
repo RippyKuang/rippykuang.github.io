@@ -245,3 +245,10 @@
   font-family: var(--vp-font-family-base) !important;
 }
 
+.nav-links-font,
+.nav-links-font button,
+.nav-links-font a,
+.nav-links-font span {
+  font-family: var(--vp-font-family-base) !important;
+}
+
