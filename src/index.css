@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html, body {
+    scroll-behavior: smooth;
+    font-family: "Times New Roman", Times, "FangSong", "STFangsong", "仿宋", "FangSong_GB2312", "Noto Serif CJK SC", "Noto Serif SC", serif;
+    color: #262626;
+  }
+
+  /* Ensure headings, buttons, and inputs inherit the FangSong / Times New Roman font */
+  input, button, select, textarea, h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+  }
+
+  code, pre, kbd {
+    font-family: "Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  }
+}
+
+/* KaTeX Clean Styling: ensure natural color inheritance and no unwanted borders/backgrounds */
+.katex {
+  color: inherit !important;
+  font-size: 1.05em;
+}
+
+.katex-display {
+  margin: 1.25rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.6);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.8);
+}
