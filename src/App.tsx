@@ -136,7 +136,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const headerTitle = currentParsedPost?.metadata.title || `败犬日报 ${currentArticleId}`;
+  const headerTitle = currentParsedPost?.metadata.title || `日报 ${currentArticleId}`;
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] flex justify-center transition-colors">

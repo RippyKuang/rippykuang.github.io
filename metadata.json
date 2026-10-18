@@ -1,5 +1,5 @@
 {
-  "name": "败犬日报 - 个人技术博客",
+  "name": "Kuang的博客",
   "description": "参考设计精心打造的高品质个人技术博客，具备完整的归档侧边栏、代码高亮、全文搜索、暗色模式与全响应式布局。",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
