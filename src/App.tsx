@@ -139,10 +139,8 @@ export default function App() {
   const headerTitle = currentParsedPost?.metadata.title || `败犬日报 ${currentArticleId}`;
 
   return (
-    <div className="min-h-screen bg-[#f6f6f7] dark:bg-[#0d1015] text-[#262626] dark:text-[#c9d1d9] flex justify-center transition-colors">
-      {/* Centered bounded layout with balanced whitespace on both sides */}
-      <div className="w-full max-w-[1440px] 2xl:max-w-[1536px] min-h-screen flex bg-white dark:bg-[#121316] border-x border-neutral-200/60 dark:border-neutral-800/80 shadow-xs relative">
-        {/* Left Sidebar */}
+    <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] transition-colors">
+      {/* Left Fixed Sidebar matching VitePress */}
       <Sidebar
         currentArticleId={currentArticleId}
         onSelectArticle={handleSelectArticle}
@@ -154,8 +152,8 @@ export default function App() {
         topics={topics}
       />
 
-      {/* Main Container */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
+      {/* Main Container offset by sidebar width (272px) on desktop, no borders on left/right */}
+      <div className="md:pl-[272px] flex flex-col min-h-screen min-w-0">
         {/* Top Header */}
         <Header
           currentTitle={headerTitle}
@@ -171,10 +169,10 @@ export default function App() {
           activeView={activeView}
         />
 
-        {/* Body Layout: Centered article with right-anchored Table of Contents */}
-        <div className="flex-1 flex min-w-0">
-          <div className="w-full flex justify-between px-6 sm:px-8 lg:px-10 xl:px-12 py-8 gap-8 lg:gap-12">
-            <main className="w-full max-w-[760px] min-w-0">
+        {/* Document Content Area: Centered with generous whitespace on both sides */}
+        <div className="flex-1 flex justify-center py-8 px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-[1120px] xl:max-w-[1240px] flex justify-between gap-8 lg:gap-12 xl:gap-16">
+            <main className="w-full max-w-[688px] min-w-0">
               {activeView === 'article' && (
                 <ArticleView
                   parsedPost={currentParsedPost}
@@ -200,7 +198,7 @@ export default function App() {
               )}
             </main>
 
-            {/* Right In-Page Navigation: comfortably beside the narrow article / about */}
+            {/* Right In-Page Navigation (Table of Contents) */}
             {activeView === 'article' && currentParsedPost && (
               <TableOfContents items={currentParsedPost.toc} />
             )}
@@ -209,7 +207,6 @@ export default function App() {
             )}
           </div>
         </div>
-      </div>
       </div>
 
       {/* Interactive Search Modal */}

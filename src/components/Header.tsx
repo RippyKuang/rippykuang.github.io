@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-[#121316]/95 backdrop-blur-md border-b border-neutral-200/80 dark:border-neutral-800 transition-colors">
-      <div className="w-full px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="w-full max-w-[1120px] xl:max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2 sm:gap-4">
         {/* Left: Mobile menu toggle & Breadcrumb title */}
         <div className="flex items-center gap-3 min-w-0">
           <button
@@ -80,14 +80,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Nav links */}
           <nav className="flex items-center gap-0.5 sm:gap-1 text-sm font-normal text-[#262626] dark:text-neutral-300">
-            <button
-              onClick={onNavigateHome}
-              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer ${
-                activeView === 'article' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff] bg-blue-50/70 dark:bg-blue-950/40' : ''
-              }`}
-            >
-              Home
-            </button>
             <button
               onClick={onNavigateAbout}
               className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer ${
