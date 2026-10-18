@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, ChevronDown, Tag } from 'lucide-react';
+import { ChevronRight, ChevronDown } from 'lucide-react';
 import { BLOG_TITLE } from '../data/blogData';
 import { ArchiveYear, DynamicTopic } from '../services/postService';
 
@@ -52,15 +52,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Column 1: Left Sidebar
-          - On desktop (md:), uses sticky in-flow positioning inside the centered flex parent so it NEVER overlaps the article
-          - Pseudo-element `before:` seamlessly extends the #f6f6f7 background into the left margin without outer border lines */}
+      {/* Column 1: Left Sidebar */}
       <aside
         className={`fixed md:sticky top-0 left-0 z-50 md:z-20 h-screen w-[260px] bg-[#f6f6f7] dark:bg-[#161618] border-r border-[#e2e2e3] dark:border-[#2e2e32] flex flex-col shrink-0 transition-transform duration-200 ease-in-out select-none pl-6 pr-0 relative before:content-[''] before:hidden md:before:block before:absolute before:inset-y-0 before:right-full before:w-[100vw] before:bg-[#f6f6f7] dark:before:bg-[#161618] before:pointer-events-none ${
           isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'
         }`}
       >
-        {/* Brand / Logo Title */}
+        {/* Brand / Logo 保持原有品牌字体 */}
         <div className="h-[60px] pr-6 flex items-center border-b border-[#e2e2e3] dark:border-[#2e2e32] shrink-0">
           <button
             onClick={() => {
@@ -75,31 +73,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
 
-        {/* Scrollable Tree Area */}
-        <div className="flex-1 overflow-y-auto py-4 pr-3.5 space-y-5 text-[13.5px]">
-          {/* Topic button */}
-          <div className="border-b border-[#e2e2e3] dark:border-[#2e2e32] pb-3">
+        {/* 目录树容器：挂载 sidebar-tree-font，仅此区域内的数字与文字应用 Inter 无衬线体 */}
+        <div className="sidebar-tree-font flex-1 overflow-y-auto py-4 pr-3.5 space-y-3.5 text-[14px]">
+          {/* 顶部 Topic 入口（对应图二无图标纯文字版） */}
+          <div className="border-b border-[#e2e2e3] dark:border-[#2e2e32] pb-2.5">
             <button
               onClick={() => {
                 onNavigateTopic();
                 if (isMobileOpen) onCloseMobile();
               }}
-              className="w-full flex items-center justify-between py-1.5 px-1 text-[#262626] dark:text-neutral-200 hover:text-[#225cd6] dark:hover:text-blue-400 font-semibold transition-colors cursor-pointer group"
+              className="w-full flex items-center justify-between py-1 px-1 text-[#3c3c43] dark:text-[#e6edf3] hover:text-[#3451b2] dark:hover:text-[#a8b1ff] font-bold text-[14px] leading-[24px] transition-colors cursor-pointer group"
             >
-              <div className="flex items-center gap-2">
-                <Tag className="w-4 h-4 text-neutral-500 group-hover:text-[#225cd6] dark:group-hover:text-blue-400" />
-                <span>Topic</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:translate-x-0.5 transition-transform" />
+              <span>Topic</span>
+              <ChevronRight className="w-4 h-4 text-[#8c959f] dark:text-[#6e7681] group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
-          {/* Dynamic Year Archive Trees */}
-          {archives.map((archive) => (
-            <div key={archive.year} className="space-y-1.5">
-              <div className="flex items-center justify-between text-[#171717] dark:text-[#f0f0f0] font-bold px-1 text-sm tracking-wide">
+          {/* 归档年份列表 */}
+          {archives.map((archive, idx) => (
+            <div
+              key={archive.year}
+              className={`space-y-1 ${idx > 0 ? 'border-t border-[#e2e2e3] dark:border-[#2e2e32] pt-2.5 mt-2.5' : ''}`}
+            >
+              {/* 年份：h2 语义，字重 700 加粗，字号 14px，行高 24px */}
+              <h2 className="flex items-center justify-between text-[#3c3c43] dark:text-[#e6edf3] font-bold px-1 text-[14px] leading-[24px]">
                 <span>{archive.year}</span>
-              </div>
+              </h2>
 
               <div className="space-y-0.5">
                 {archive.months.map((m) => {
@@ -109,13 +108,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                   return (
                     <div key={m.month} className="group">
+                      {/* 月份：h3 语义，字重 500 Medium，字号 14px，行高 24px */}
                       <button
                         onClick={() => toggleMonth(archive.year, m.month)}
-                        className={`w-full flex items-center justify-between py-1 px-1 rounded text-[#57606a] dark:text-[#8b949e] hover:text-[#171717] dark:hover:text-[#f0f0f0] transition-colors cursor-pointer ${
-                          isExpanded ? 'font-medium text-[#171717] dark:text-[#f0f0f0]' : ''
+                        className={`w-full flex items-center justify-between py-1 px-1 rounded text-[14px] leading-[24px] transition-colors cursor-pointer ${
+                          isExpanded
+                            ? 'font-medium text-[#3c3c43] dark:text-[#e6edf3]'
+                            : 'font-medium text-[#67676c] dark:text-[#929295] hover:text-[#3c3c43] dark:hover:text-[#e6edf3]'
                         }`}
                       >
-                        <span className="text-[13px]">{m.month}</span>
+                        <h3 className="text-[14px] leading-[24px] font-medium m-0">
+                          {m.month}
+                        </h3>
                         {isExpanded ? (
                           <ChevronDown className="w-3.5 h-3.5 text-[#8c959f] dark:text-[#6e7681]" />
                         ) : (
@@ -123,8 +127,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         )}
                       </button>
 
+                      {/* 具体日期文章：p 语义，字重 500 Medium */}
                       {isExpanded && (
-                        <div className="relative ml-2 pl-2.5 border-l border-[#e1e4e8] dark:border-[#30363d] mt-1 space-y-0.5">
+                        <div className="relative ml-2 pl-2.5 border-l border-[#e2e2e3] dark:border-[#2e2e32] mt-0.5 space-y-0.5">
                           {hasArticles ? (
                             m.articles.map((art) => {
                               const isActive = art.id === currentArticleId;
@@ -132,21 +137,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 <button
                                   key={art.id}
                                   onClick={() => handleArticleClick(art.id)}
-                                  className={`relative w-full text-left py-1 pl-2.5 pr-1 text-[13px] transition-colors flex items-center cursor-pointer ${
+                                  className={`relative w-full text-left py-1 pl-2.5 pr-1 text-[14px] leading-[24px] transition-colors flex items-center cursor-pointer ${
                                     isActive
-                                      ? 'text-[#225cd6] dark:text-[#58a6ff] font-medium'
-                                      : 'text-[#57606a] dark:text-[#8b949e] hover:text-[#171717] dark:hover:text-[#f0f0f0]'
+                                      ? 'text-[#3451b2] dark:text-[#a8b1ff] font-medium'
+                                      : 'text-[#67676c] dark:text-[#929295] hover:text-[#3c3c43] dark:hover:text-[#e6edf3] font-medium'
                                   }`}
                                 >
+                                  {/* 激活指示蓝条 */}
                                   {isActive && (
-                                    <span className="absolute -left-[11px] top-0 bottom-0 w-[2px] bg-[#225cd6] dark:bg-[#58a6ff]" />
+                                    <span className="absolute -left-[11px] top-0 bottom-0 w-[2px] bg-[#3451b2] dark:bg-[#a8b1ff]" />
                                   )}
-                                  <span className="truncate">{art.date}</span>
+                                  <p className="truncate m-0 text-[14px] leading-[24px] font-medium">
+                                    {art.date}
+                                  </p>
                                 </button>
                               );
                             })
                           ) : (
-                            <div className="py-1 px-2 text-[11.5px] text-neutral-400 italic">
+                            <div className="py-1 px-2 text-[12px] text-neutral-400 italic">
                               暂无归档文章
                             </div>
                           )}
