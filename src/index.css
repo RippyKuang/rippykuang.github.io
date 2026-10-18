@@ -4,7 +4,7 @@
 
 @layer base {
   html, body {
-    /* scroll-behavior: smooth removed to prevent reverse scroll jumping */
+    scroll-behavior: smooth;
     font-family: "Times New Roman", Times, "FangSong", "STFangsong", "仿宋", "FangSong_GB2312", "Noto Serif CJK SC", "Noto Serif SC", serif;
     color: #262626;
   }
@@ -60,4 +60,155 @@
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(107, 114, 128, 0.8);
+}
+
+/* ==========================================================================
+   VitePress Exact 3-Column Compact Layout System (makeinu-daily.pages.dev)
+   Total 3-Column Width: 232px (Sidebar) + 48px + 688px (Article) + 48px + 224px (TOC) = 1240px
+   ========================================================================== */
+:root {
+  --vp-layout-max-width: 1304px;
+  --vp-sidebar-width: 264px;
+  --vp-nav-height: 60px;
+}
+
+/* 1. Left Sidebar (.vp-sidebar)
+   Fills left margin seamlessly with #f6f6f7 while indenting sidebar items
+   so all 3 columns stay compactly centered in the viewport */
+.vp-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  width: var(--vp-sidebar-width);
+  max-width: 100%;
+  background-color: #f6f6f7;
+  border-right: 1px solid #e2e2e3;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.dark .vp-sidebar {
+  background-color: #161618;
+  border-right-color: #2e2e32;
+}
+
+@media (min-width: 768px) {
+  .vp-sidebar {
+    z-index: 25;
+    padding-left: 32px;
+    width: var(--vp-sidebar-width);
+    transform: translateX(0) !important;
+  }
+}
+
+@media (min-width: 1304px) {
+  .vp-sidebar {
+    padding-left: max(32px, calc((100vw - (var(--vp-layout-max-width) - 64px)) / 2));
+    width: calc((100vw - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+  }
+}
+
+/* 2. Main Content Wrapper (.vp-content-wrapper)
+   Offsets precisely by the dynamic sidebar width */
+.vp-content-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .vp-content-wrapper {
+    padding-left: var(--vp-sidebar-width);
+  }
+}
+
+@media (min-width: 1304px) {
+  .vp-content-wrapper {
+    padding-left: calc((100vw - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+  }
+}
+
+/* 3. Top Header (.vp-navbar)
+   Bottom border spans to right edge, inner items align with Article & Right TOC */
+.vp-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  width: 100%;
+  height: var(--vp-nav-height);
+  border-bottom: 1px solid #e2e2e3;
+}
+
+.dark .vp-navbar {
+  border-bottom-color: #2e2e32;
+}
+
+.vp-navbar-container {
+  height: 100%;
+  width: 100%;
+  max-width: calc(48px + 688px + 48px + 224px + 32px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .vp-navbar-container {
+    padding-left: 48px;
+    padding-right: 32px;
+  }
+}
+
+/* 4. Document Area (.vp-doc)
+   Compactly groups Main Article (688px) + 48px gap + Right TOC (224px) */
+.vp-doc {
+  width: 100%;
+  flex: 1;
+  padding: 32px 24px 96px;
+}
+
+@media (min-width: 768px) {
+  .vp-doc {
+    padding: 40px 32px 96px 48px;
+  }
+}
+
+.vp-doc-container {
+  width: 100%;
+  max-width: calc(688px + 48px + 224px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+.vp-doc-content {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-width: 688px;
+}
+
+.vp-doc-content-inner {
+  width: 100%;
+  max-width: 688px;
+}
+
+.vp-doc-aside {
+  position: relative;
+  display: none;
+  flex-shrink: 0;
+  width: 224px;
+}
+
+@media (min-width: 1100px) {
+  .vp-doc-aside {
+    display: block;
+  }
 }
