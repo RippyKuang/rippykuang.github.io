@@ -140,38 +140,39 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] transition-colors">
-      {/* Left Fixed Sidebar matching VitePress */}
-      <Sidebar
-        currentArticleId={currentArticleId}
-        onSelectArticle={handleSelectArticle}
-        onNavigateTopic={handleNavigateTopic}
-        onNavigateHome={handleNavigateHome}
-        isMobileOpen={isMobileSidebarOpen}
-        onCloseMobile={() => setIsMobileSidebarOpen(false)}
-        archives={archives}
-        topics={topics}
-      />
-
-      {/* Main Container offset by sidebar width (272px) on desktop, no borders on left/right */}
-      <div className="md:pl-[272px] flex flex-col min-h-screen min-w-0">
-        {/* Top Header */}
-        <Header
-          currentTitle={headerTitle}
-          onOpenSearch={() => setIsSearchOpen(true)}
-          onNavigateHome={handleNavigateHome}
-          onNavigateAbout={handleNavigateAbout}
+      {/* Centered entire layout container: Both sides have whitespace, NO border lines on left or right */}
+      <div className="w-full max-w-[1440px] 2xl:max-w-[1536px] mx-auto min-h-screen flex">
+        {/* Left Sidebar: Flows inside centered container with natural left margin */}
+        <Sidebar
+          currentArticleId={currentArticleId}
+          onSelectArticle={handleSelectArticle}
           onNavigateTopic={handleNavigateTopic}
-          onNavigateLatest={handleNavigateLatest}
-          isDarkMode={isDarkMode}
-          onToggleTheme={() => setIsDarkMode(prev => !prev)}
-          isMobileSidebarOpen={isMobileSidebarOpen}
-          onToggleMobileSidebar={() => setIsMobileSidebarOpen(prev => !prev)}
-          activeView={activeView}
+          onNavigateHome={handleNavigateHome}
+          isMobileOpen={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+          archives={archives}
+          topics={topics}
         />
 
-        {/* Document Content Area: Centered with generous whitespace on both sides */}
-        <div className="flex-1 flex justify-center py-8 px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-[1120px] xl:max-w-[1240px] flex justify-between gap-8 lg:gap-12 xl:gap-16">
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-h-screen min-w-0">
+          {/* Top Header */}
+          <Header
+            currentTitle={headerTitle}
+            onOpenSearch={() => setIsSearchOpen(true)}
+            onNavigateHome={handleNavigateHome}
+            onNavigateAbout={handleNavigateAbout}
+            onNavigateTopic={handleNavigateTopic}
+            onNavigateLatest={handleNavigateLatest}
+            isDarkMode={isDarkMode}
+            onToggleTheme={() => setIsDarkMode(prev => !prev)}
+            isMobileSidebarOpen={isMobileSidebarOpen}
+            onToggleMobileSidebar={() => setIsMobileSidebarOpen(prev => !prev)}
+            activeView={activeView}
+          />
+
+          {/* Document Content Area */}
+          <div className="flex-1 flex justify-between px-6 sm:px-8 lg:px-10 xl:px-12 py-8 gap-8 lg:gap-12 xl:gap-16">
             <main className="w-full max-w-[688px] min-w-0">
               {activeView === 'article' && (
                 <ArticleView

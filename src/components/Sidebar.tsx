@@ -54,10 +54,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Sidebar container */}
+      {/* Sidebar container: drawer on mobile, sticky in-flow centered column on desktop */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 md:z-20 h-screen w-[272px] bg-[#f6f6f7] dark:bg-[#16171b] border-r border-neutral-200/80 dark:border-neutral-800 flex flex-col shrink-0 transition-transform duration-200 ease-in-out select-none ${
-          isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'
+        className={`fixed md:sticky top-0 z-50 md:z-20 h-screen w-[272px] bg-[#f6f6f7] dark:bg-[#16171b] border-r border-neutral-200/80 dark:border-neutral-800 flex flex-col shrink-0 transition-transform duration-200 ease-in-out select-none ${
+          isMobileOpen
+            ? 'left-0 bottom-0 translate-x-0 shadow-2xl'
+            : '-translate-x-full md:translate-x-0 md:static'
         }`}
       >
         {/* Brand / Logo Title */}
