@@ -42,5 +42,5 @@ export interface ArchiveYear {
   }[];
 }
 
-export const BLOG_TITLE = "DaliyNuts";
+export const BLOG_TITLE = "Daliy Nuts";
 
