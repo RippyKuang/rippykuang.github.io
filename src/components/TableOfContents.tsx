@@ -21,16 +21,20 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Find the heading currently in view (closest heading passing top <= 140px)
+      let currentActive = items[0]?.id || '';
       for (const item of items) {
         const el = document.getElementById(item.id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 140 && rect.bottom >= 80) {
-            setActiveId(item.id);
+          if (rect.top <= 140) {
+            currentActive = item.id;
+          } else {
             break;
           }
         }
       }
+      setActiveId(currentActive);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -51,14 +55,17 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
   return (
     <aside className="hidden lg:block w-[220px] shrink-0 select-none self-stretch">
       {/* Sticky container: stays fixed in viewport, never scrolling away with the page */}
-      <div className="sticky top-[84px] max-h-[calc(100vh-100px)] overflow-y-auto pr-1">
-        <div className="border-l border-[#e2e2e3] dark:border-[#2e2e32] pl-4 py-1">
+      <div className="sticky top-[84px] max-h-[calc(100vh-100px)] overflow-y-auto overscroll-contain pr-1">
+        <div className="border-l border-[#e2e2e3] dark:border-[#2e2e32] pl-4 py-1 relative">
           {/* Section title */}
           <div className="text-[14.5px] font-bold text-[#171717] dark:text-[#f0f0f0] mb-3 tracking-tight">
             页面导航
           </div>
 
-          {/* Navigation Items: slightly larger text (14px), smooth hover slide & color animation */}
+          {/* Navigation Items:
+              - Active: darkened text (#171717 / dark: #f0f0f0, font-medium) + blue vertical indicator on left line
+              - Inactive: lighter grey (#71717a / dark: #a1a1aa)
+              - Hover: smooth slide right (hover:translate-x-1) and darken text */}
           <nav className="space-y-2 text-[14px]">
             {items.map((item) => {
               const isActive = activeId === item.id;
@@ -70,14 +77,14 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
                     item.level && item.level > 2 ? 'pl-3 text-[13px]' : ''
                   } ${
                     isActive
-                      ? 'text-[#225cd6] dark:text-[#58a6ff] font-medium'
-                      : 'text-[#57606a] dark:text-[#8b949e] hover:text-[#225cd6] dark:hover:text-[#58a6ff]'
+                      ? 'text-[#171717] dark:text-[#f0f0f0] font-medium'
+                      : 'text-[#71717a] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-[#f0f0f0]'
                   }`}
                   title={item.title.replace(/`/g, '')}
                 >
-                  {/* Left blue active vertical indicator pill */}
+                  {/* Left vertical blue line indicator: exactly on top of the left vertical border line */}
                   {isActive && (
-                    <span className="absolute -left-[17px] top-1 bottom-1 w-[2.5px] bg-[#225cd6] dark:bg-[#58a6ff] rounded-full transition-all duration-200" />
+                    <span className="absolute -left-[17px] top-1/2 -translate-y-1/2 h-[18px] w-[2.5px] bg-[#225cd6] dark:bg-[#58a6ff] rounded-full transition-all duration-200" />
                   )}
                   <span className="inline-block transition-transform duration-200 ease-out">
                     {item.title.replace(/`/g, '')}
