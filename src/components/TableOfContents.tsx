@@ -49,33 +49,39 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <aside className="vp-doc-aside select-none">
-      <div className="sticky top-24">
-        <div className="border-l border-[#e2e2e3] dark:border-[#2e2e32] pl-4 py-0.5">
-          <div className="text-[13px] font-bold text-[#171717] dark:text-[#f0f0f0] mb-2 tracking-tight">
+    <aside className="hidden lg:block w-[220px] shrink-0 select-none self-stretch">
+      {/* Sticky container: stays fixed in viewport, never scrolling away with the page */}
+      <div className="sticky top-[84px] max-h-[calc(100vh-100px)] overflow-y-auto pr-1">
+        <div className="border-l border-[#e2e2e3] dark:border-[#2e2e32] pl-4 py-1">
+          {/* Section title */}
+          <div className="text-[14.5px] font-bold text-[#171717] dark:text-[#f0f0f0] mb-3 tracking-tight">
             页面导航
           </div>
 
-          <nav className="space-y-1.5 text-[13px] text-[#57606a] dark:text-[#8b949e]">
+          {/* Navigation Items: slightly larger text (14px), smooth hover slide & color animation */}
+          <nav className="space-y-2 text-[14px]">
             {items.map((item) => {
               const isActive = activeId === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative block w-full text-left leading-snug transition-colors cursor-pointer truncate ${
-                    item.level && item.level > 2 ? 'pl-3 text-xs' : ''
+                  className={`group relative block w-full text-left leading-[1.6] cursor-pointer truncate transition-all duration-200 ease-out hover:translate-x-1 ${
+                    item.level && item.level > 2 ? 'pl-3 text-[13px]' : ''
                   } ${
                     isActive
                       ? 'text-[#225cd6] dark:text-[#58a6ff] font-medium'
-                      : 'text-[#57606a] dark:text-[#8b949e] hover:text-[#171717] dark:hover:text-[#f0f0f0]'
+                      : 'text-[#57606a] dark:text-[#8b949e] hover:text-[#225cd6] dark:hover:text-[#58a6ff]'
                   }`}
                   title={item.title.replace(/`/g, '')}
                 >
+                  {/* Left blue active vertical indicator pill */}
                   {isActive && (
-                    <span className="absolute -left-[17px] top-0.5 bottom-0.5 w-[2px] bg-[#225cd6] dark:bg-[#58a6ff]" />
+                    <span className="absolute -left-[17px] top-1 bottom-1 w-[2.5px] bg-[#225cd6] dark:bg-[#58a6ff] rounded-full transition-all duration-200" />
                   )}
-                  {item.title.replace(/`/g, '')}
+                  <span className="inline-block transition-transform duration-200 ease-out">
+                    {item.title.replace(/`/g, '')}
+                  </span>
                 </button>
               );
             })}
