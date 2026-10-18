@@ -23,8 +23,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onCloseMobile,
   archives,
 }) => {
-  // State to track expanded months: keyed by `${year}-${month}`
-  // By default, 2026-07 is expanded (matching screenshot)
   const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({
     '2026-07': true,
   });
@@ -54,16 +52,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Sidebar container: drawer on mobile, sticky in-flow centered column on desktop */}
+      {/* VitePress Sidebar container: #f6f6f7 background extends left, content indented to center */}
       <aside
-        className={`fixed md:sticky top-0 z-50 md:z-20 h-screen w-[272px] bg-[#f6f6f7] dark:bg-[#16171b] border-r border-neutral-200/80 dark:border-neutral-800 flex flex-col shrink-0 transition-transform duration-200 ease-in-out select-none ${
-          isMobileOpen
-            ? 'left-0 bottom-0 translate-x-0 shadow-2xl'
-            : '-translate-x-full md:translate-x-0 md:static'
+        className={`vp-sidebar select-none ${
+          isMobileOpen ? 'translate-x-0 shadow-2xl px-6' : '-translate-x-full'
         }`}
       >
         {/* Brand / Logo Title */}
-        <div className="h-14 px-6 flex items-center border-b border-neutral-200/60 dark:border-neutral-800/80 shrink-0">
+        <div className="h-[60px] pr-6 md:pr-8 flex items-center border-b border-[#e2e2e3] dark:border-[#2e2e32] shrink-0">
           <button
             onClick={() => {
               onNavigateHome();
@@ -71,22 +67,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
             }}
             className="flex items-center gap-2 group text-left w-full cursor-pointer"
           >
-            <span className="text-lg font-bold tracking-tight text-[#171717] dark:text-[#f0f0f0] group-hover:text-[#225cd6] dark:group-hover:text-blue-400 transition-colors">
+            <span className="text-[16px] font-bold tracking-tight text-[#171717] dark:text-[#f0f0f0] group-hover:text-[#225cd6] dark:group-hover:text-blue-400 transition-colors">
               {BLOG_TITLE}
             </span>
           </button>
         </div>
 
         {/* Scrollable Tree Area */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6 text-[13.5px]">
-          {/* Topic button: directly navigates to Topic page without dropdown */}
-          <div className="border-b border-neutral-200/50 dark:border-neutral-800/60 pb-3">
+        <div className="flex-1 overflow-y-auto pr-6 md:pr-8 py-4 space-y-5 text-[13.5px]">
+          {/* Topic button */}
+          <div className="border-b border-[#e2e2e3] dark:border-[#2e2e32] pb-3">
             <button
               onClick={() => {
                 onNavigateTopic();
                 if (isMobileOpen) onCloseMobile();
               }}
-              className="w-full flex items-center justify-between py-1 px-1.5 rounded-md text-[#262626] dark:text-neutral-200 font-semibold hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition-colors group cursor-pointer"
+              className="w-full flex items-center justify-between py-1.5 px-1 text-[#262626] dark:text-neutral-200 hover:text-[#225cd6] dark:hover:text-blue-400 font-semibold transition-colors cursor-pointer group"
             >
               <div className="flex items-center gap-2">
                 <Tag className="w-4 h-4 text-neutral-500 group-hover:text-[#225cd6] dark:group-hover:text-blue-400" />
@@ -96,7 +92,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           </div>
 
-          {/* Dynamic Year Archive Trees matching screenshot */}
+          {/* Dynamic Year Archive Trees */}
           {archives.map((archive) => (
             <div key={archive.year} className="space-y-1.5">
               <div className="flex items-center justify-between text-[#171717] dark:text-[#f0f0f0] font-bold px-1 text-sm tracking-wide">
@@ -111,7 +107,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                   return (
                     <div key={m.month} className="group">
-                      {/* Month row button */}
                       <button
                         onClick={() => toggleMonth(archive.year, m.month)}
                         className={`w-full flex items-center justify-between py-1 px-1 rounded text-[#57606a] dark:text-[#8b949e] hover:text-[#171717] dark:hover:text-[#f0f0f0] transition-colors cursor-pointer ${
@@ -126,7 +121,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         )}
                       </button>
 
-                      {/* Expanded Articles list for this month */}
                       {isExpanded && (
                         <div className="relative ml-2 pl-2.5 border-l border-[#e1e4e8] dark:border-[#30363d] mt-1 space-y-0.5">
                           {hasArticles ? (
@@ -142,9 +136,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                       : 'text-[#57606a] dark:text-[#8b949e] hover:text-[#171717] dark:hover:text-[#f0f0f0]'
                                   }`}
                                 >
-                                  {/* Left blue active vertical accent indicator on the guide line */}
                                   {isActive && (
-                                    <span className="absolute -left-[11px] top-0 bottom-0 w-[2.5px] bg-[#225cd6] dark:bg-[#58a6ff]" />
+                                    <span className="absolute -left-[11px] top-0 bottom-0 w-[2px] bg-[#225cd6] dark:bg-[#58a6ff]" />
                                   )}
                                   <span className="truncate">{art.date}</span>
                                 </button>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Sun, Moon, Menu, X, ArrowLeft, Github } from 'lucide-react';
+import { Search, Sun, Moon, Menu, X, Github } from 'lucide-react';
 
 interface HeaderProps {
   currentTitle: string;
@@ -18,7 +18,6 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   currentTitle,
   onOpenSearch,
-  onNavigateHome,
   onNavigateAbout,
   onNavigateTopic,
   onNavigateLatest,
@@ -29,10 +28,10 @@ export const Header: React.FC<HeaderProps> = ({
   activeView,
 }) => {
   return (
-    <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-[#121316]/95 backdrop-blur-md border-b border-neutral-200/80 dark:border-neutral-800 transition-colors">
-      <div className="w-full max-w-[1120px] xl:max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Left: Mobile menu toggle & Breadcrumb title */}
-        <div className="flex items-center gap-3 min-w-0">
+    <header className="vp-navbar bg-white/95 dark:bg-[#121316]/95 backdrop-blur-md transition-colors">
+      <div className="vp-navbar-container">
+        {/* Left: Mobile menu toggle, Breadcrumb title, and compact Search box right beside it */}
+        <div className="flex items-center gap-4 sm:gap-6 min-w-0">
           <button
             onClick={onToggleMobileSidebar}
             className="md:hidden p-1.5 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
@@ -47,26 +46,24 @@ export const Header: React.FC<HeaderProps> = ({
               {activeView === 'topics' ? '分类' : activeView === 'about' ? '关于' : currentTitle}
             </span>
           </div>
-        </div>
 
-        {/* Center-Left: Quick Search Button */}
-        <div className="flex-1 max-w-xs mx-2 hidden sm:block">
+          {/* Compact VitePress-style Search Button directly beside title */}
           <button
             onClick={onOpenSearch}
-            className="w-full flex items-center justify-between px-3 py-1.5 text-sm bg-neutral-100 dark:bg-neutral-800/80 hover:bg-neutral-200/70 dark:hover:bg-neutral-800 text-[#57606a] dark:text-neutral-400 rounded-lg border border-transparent hover:border-neutral-300 dark:hover:border-neutral-700 transition-all cursor-pointer group"
+            className="hidden sm:flex items-center gap-3 px-3 py-1.5 text-[13px] bg-[#f6f6f7] dark:bg-[#161618] hover:border-[#225cd6]/50 dark:hover:border-blue-400/50 text-[#57606a] dark:text-neutral-400 rounded-lg border border-transparent transition-all cursor-pointer group shrink-0"
             title="搜索文章 (Ctrl + K)"
           >
-            <div className="flex items-center gap-2">
-              <Search className="w-4 h-4 text-neutral-400 group-hover:text-[#262626] dark:group-hover:text-neutral-300 transition-colors" />
+            <div className="flex items-center gap-1.5">
+              <Search className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#262626] dark:group-hover:text-neutral-300 transition-colors" />
               <span>Search</span>
             </div>
-            <kbd className="hidden lg:inline-flex items-center gap-0.5 text-[11px] font-mono bg-white dark:bg-neutral-700/80 text-neutral-500 dark:text-neutral-300 px-1.5 py-0.5 rounded border border-neutral-200 dark:border-neutral-600 shadow-2xs">
+            <kbd className="inline-flex items-center text-[11px] font-mono bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-300 px-1.5 py-0.5 rounded border border-neutral-200 dark:border-neutral-700">
               Ctrl K
             </kbd>
           </button>
         </div>
 
-        {/* Right: Navigation items and Theme switch */}
+        {/* Right: Navigation items (About, Topic, Latest), Theme switch, and GitHub */}
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Mobile search icon */}
           <button
@@ -78,59 +75,61 @@ export const Header: React.FC<HeaderProps> = ({
             <Search className="w-4 h-4" />
           </button>
 
-          {/* Nav links */}
-          <nav className="flex items-center gap-0.5 sm:gap-1 text-sm font-normal text-[#262626] dark:text-neutral-300">
+          {/* Nav links (No Home button) */}
+          <nav className="flex items-center gap-1 sm:gap-2 text-[14px] font-normal text-[#262626] dark:text-neutral-300">
             <button
               onClick={onNavigateAbout}
-              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer ${
-                activeView === 'about' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff] bg-blue-50/70 dark:bg-blue-950/40' : ''
+              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#225cd6] dark:hover:text-[#58a6ff] cursor-pointer ${
+                activeView === 'about' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff]' : ''
               }`}
             >
               About
             </button>
             <button
               onClick={onNavigateTopic}
-              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer ${
-                activeView === 'topics' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff] bg-blue-50/70 dark:bg-blue-950/40' : ''
+              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#225cd6] dark:hover:text-[#58a6ff] cursor-pointer ${
+                activeView === 'topics' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff]' : ''
               }`}
             >
               Topic
             </button>
             <button
               onClick={onNavigateLatest}
-              className="px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer"
+              className="px-2.5 py-1 rounded-md transition-colors hover:text-[#225cd6] dark:hover:text-[#58a6ff] cursor-pointer"
             >
               Latest
             </button>
           </nav>
 
-          <div className="h-4 w-px bg-neutral-200 dark:bg-neutral-800 mx-1 hidden sm:block" />
+          <div className="h-4 w-px bg-[#e2e2e3] dark:bg-[#2e2e32] mx-1.5 hidden sm:block" />
+
+          {/* Theme Switch Pill */}
+          <button
+            onClick={onToggleTheme}
+            className="relative flex items-center justify-center p-1.5 rounded-full border border-[#e2e2e3] dark:border-[#2e2e32] bg-[#f6f6f7] dark:bg-[#161618] hover:border-neutral-400 dark:hover:border-neutral-600 transition-all text-neutral-700 dark:text-neutral-300 cursor-pointer"
+            title={isDarkMode ? "切换至浅色模式" : "切换至深色模式"}
+            aria-label="切换主题模式"
+          >
+            {isDarkMode ? (
+              <Moon className="w-3.5 h-3.5 text-amber-300" />
+            ) : (
+              <Sun className="w-3.5 h-3.5 text-amber-500" />
+            )}
+          </button>
+
+          <div className="h-4 w-px bg-[#e2e2e3] dark:bg-[#2e2e32] mx-1 hidden sm:block" />
 
           {/* GitHub Repo Link */}
           <a
             href="https://github.com/rippykuang/rippykuang.github.io"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+            className="p-1.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
             title="GitHub 仓库"
             aria-label="GitHub 仓库"
           >
             <Github className="w-4 h-4" />
           </a>
-
-          {/* Theme Switch Pill with Sun/Moon Icon */}
-          <button
-            onClick={onToggleTheme}
-            className="relative flex items-center justify-center p-1.5 rounded-full border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-all text-neutral-700 dark:text-neutral-300 cursor-pointer"
-            title={isDarkMode ? "切换至浅色模式" : "切换至深色模式"}
-            aria-label="切换主题模式"
-          >
-            {isDarkMode ? (
-              <Moon className="w-4 h-4 text-amber-300" />
-            ) : (
-              <Sun className="w-4 h-4 text-amber-500" />
-            )}
-          </button>
         </div>
       </div>
     </header>

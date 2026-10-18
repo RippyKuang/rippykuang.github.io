@@ -49,23 +49,22 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <aside className="hidden lg:block w-52 shrink-0 select-none">
-      <div className="sticky top-20">
-        {/* Subtle left border, bold '页面导航', minimalist text list */}
-        <div className="border-l border-[#e1e4e8] dark:border-[#30363d] pl-4 py-0.5">
-          <div className="text-[14px] font-bold text-[#171717] dark:text-[#f0f0f0] mb-2.5 tracking-tight">
+    <aside className="vp-doc-aside select-none">
+      <div className="sticky top-24">
+        <div className="border-l border-[#e2e2e3] dark:border-[#2e2e32] pl-4 py-0.5">
+          <div className="text-[13px] font-bold text-[#171717] dark:text-[#f0f0f0] mb-2 tracking-tight">
             页面导航
           </div>
 
-          <nav className="space-y-2 text-[13px] text-[#57606a] dark:text-[#8b949e]">
+          <nav className="space-y-1.5 text-[13px] text-[#57606a] dark:text-[#8b949e]">
             {items.map((item) => {
               const isActive = activeId === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left leading-normal transition-colors cursor-pointer truncate ${
-                    item.level && item.level > 2 ? 'pl-2 text-xs' : ''
+                  className={`relative block w-full text-left leading-snug transition-colors cursor-pointer truncate ${
+                    item.level && item.level > 2 ? 'pl-3 text-xs' : ''
                   } ${
                     isActive
                       ? 'text-[#225cd6] dark:text-[#58a6ff] font-medium'
@@ -73,6 +72,9 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
                   }`}
                   title={item.title.replace(/`/g, '')}
                 >
+                  {isActive && (
+                    <span className="absolute -left-[17px] top-0.5 bottom-0.5 w-[2px] bg-[#225cd6] dark:bg-[#58a6ff]" />
+                  )}
                   {item.title.replace(/`/g, '')}
                 </button>
               );
