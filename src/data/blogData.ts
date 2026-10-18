@@ -42,5 +42,5 @@ export interface ArchiveYear {
   }[];
 }
 
-export const BLOG_TITLE = "Kuang的博客";
+export const BLOG_TITLE = "DaliyNuts";
 

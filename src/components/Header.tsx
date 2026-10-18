@@ -125,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* GitHub Repo Link */}
           <a
-            href="https://github.com/rippykuang/rippykuang.github.io"
+            href="https://github.com/rippykuang"
             target="_blank"
             rel="noopener noreferrer"
             className="p-1.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
