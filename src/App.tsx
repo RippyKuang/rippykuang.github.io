@@ -139,8 +139,10 @@ export default function App() {
   const headerTitle = currentParsedPost?.metadata.title || `败犬日报 ${currentArticleId}`;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] flex transition-colors">
-      {/* Left Sidebar */}
+    <div className="min-h-screen bg-[#f6f6f7] dark:bg-[#0d1015] text-[#262626] dark:text-[#c9d1d9] flex justify-center transition-colors">
+      {/* Centered bounded layout with balanced whitespace on both sides */}
+      <div className="w-full max-w-[1440px] 2xl:max-w-[1536px] min-h-screen flex bg-white dark:bg-[#121316] border-x border-neutral-200/60 dark:border-neutral-800/80 shadow-xs relative">
+        {/* Left Sidebar */}
       <Sidebar
         currentArticleId={currentArticleId}
         onSelectArticle={handleSelectArticle}
@@ -169,10 +171,10 @@ export default function App() {
           activeView={activeView}
         />
 
-        {/* Body Layout: Anchored next to sidebar with fixed narrow width and right TOC matching reference */}
+        {/* Body Layout: Centered article with right-anchored Table of Contents */}
         <div className="flex-1 flex min-w-0">
-          <div className="w-full flex px-6 sm:px-10 lg:px-12 xl:px-16 py-8 gap-8 lg:gap-12">
-            <main className="w-full max-w-[680px] min-w-0">
+          <div className="w-full flex justify-between px-6 sm:px-8 lg:px-10 xl:px-12 py-8 gap-8 lg:gap-12">
+            <main className="w-full max-w-[760px] min-w-0">
               {activeView === 'article' && (
                 <ArticleView
                   parsedPost={currentParsedPost}
@@ -207,6 +209,7 @@ export default function App() {
             )}
           </div>
         </div>
+      </div>
       </div>
 
       {/* Interactive Search Modal */}

@@ -23,7 +23,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 }) => {
   if (isLoading || !parsedPost) {
     return (
-      <article className="w-full max-w-[680px] animate-pulse space-y-6">
+      <article className="w-full max-w-[760px] animate-pulse space-y-6">
         <div className="h-10 bg-neutral-200 dark:bg-neutral-800 rounded-lg w-3/4 mb-8" />
         <div className="h-4 bg-neutral-200 dark:bg-neutral-800 rounded w-1/3 mb-4" />
         <div className="space-y-3">
@@ -37,7 +37,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const { metadata, content } = parsedPost;
 
   return (
-    <article className="w-full max-w-[680px]">
+    <article className="w-full max-w-[760px]">
       {/* Article Title */}
       <h1 className="text-3xl font-bold tracking-tight text-[#171717] dark:text-[#f0f0f0] mb-6">
         {metadata.title}

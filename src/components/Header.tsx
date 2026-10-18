@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Sun, Moon, Menu, X, ArrowLeft } from 'lucide-react';
+import { Search, Sun, Moon, Menu, X, ArrowLeft, Github } from 'lucide-react';
 
 interface HeaderProps {
   currentTitle: string;
@@ -81,6 +81,14 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Nav links */}
           <nav className="flex items-center gap-0.5 sm:gap-1 text-sm font-normal text-[#262626] dark:text-neutral-300">
             <button
+              onClick={onNavigateHome}
+              className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer ${
+                activeView === 'article' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff] bg-blue-50/70 dark:bg-blue-950/40' : ''
+              }`}
+            >
+              Home
+            </button>
+            <button
               onClick={onNavigateAbout}
               className={`px-2.5 py-1 rounded-md transition-colors hover:text-[#171717] dark:hover:text-white hover:bg-neutral-100/80 dark:hover:bg-neutral-800 cursor-pointer ${
                 activeView === 'about' ? 'font-medium text-[#225cd6] dark:text-[#58a6ff] bg-blue-50/70 dark:bg-blue-950/40' : ''
@@ -105,6 +113,18 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           <div className="h-4 w-px bg-neutral-200 dark:bg-neutral-800 mx-1 hidden sm:block" />
+
+          {/* GitHub Repo Link */}
+          <a
+            href="https://github.com/rippykuang/rippykuang.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+            title="GitHub 仓库"
+            aria-label="GitHub 仓库"
+          >
+            <Github className="w-4 h-4" />
+          </a>
 
           {/* Theme Switch Pill with Sun/Moon Icon */}
           <button
