@@ -140,7 +140,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] transition-colors">
-      {/* Column 1: Left Sidebar (VitePress dynamic left-padding indents content while #f6f6f7 fills left margin) */}
+      {/* Column 1: Left Sidebar (Always visible on desktop, dynamically indented on wide screens) */}
       <Sidebar
         currentArticleId={currentArticleId}
         onSelectArticle={handleSelectArticle}
@@ -152,8 +152,8 @@ export default function App() {
         topics={topics}
       />
 
-      {/* Right Content Wrapper offset by dynamic sidebar width */}
-      <div className="vp-content-wrapper">
+      {/* Right Content Wrapper: Offsets precisely by the sidebar width */}
+      <div className="w-full min-h-screen flex flex-col md:pl-[260px] min-[1280px]:pl-[calc((100vw-1240px)/2+260px)]">
         {/* Top Sticky Header */}
         <Header
           currentTitle={headerTitle}
@@ -169,46 +169,42 @@ export default function App() {
           activeView={activeView}
         />
 
-        {/* Compact Center Article + Right TOC Container */}
-        <div className="vp-doc">
-          <div className="vp-doc-container">
-            {/* Column 2: Center Main Content (688px max-width) */}
-            <div className="vp-doc-content">
-              <main className="vp-doc-content-inner">
-                {activeView === 'article' && (
-                  <ArticleView
-                    parsedPost={currentParsedPost}
-                    isLoading={false}
-                    onSelectTopic={handleSelectTopic}
-                    onPrevArticle={prevArticle ? () => handleSelectArticle(prevArticle.id) : undefined}
-                    onNextArticle={nextArticle ? () => handleSelectArticle(nextArticle.id) : undefined}
-                    prevTitle={prevArticle?.title}
-                    nextTitle={nextArticle?.title}
-                  />
-                )}
-
-                {activeView === 'about' && (
-                  <AboutView aboutPost={aboutParsedPost} />
-                )}
-
-                {activeView === 'topics' && (
-                  <TopicsView
-                    initialTopic={selectedTopicFilter}
-                    onSelectArticle={handleSelectArticle}
-                    posts={posts}
-                  />
-                )}
-              </main>
-            </div>
-
-            {/* Column 3: Right In-Page Navigation (Table of Contents, 256px max-width) */}
-            {activeView === 'article' && currentParsedPost && (
-              <TableOfContents items={currentParsedPost.toc} />
+        {/* Compact Center Article (688px) + 48px gap + Right TOC (196px) */}
+        <div className="flex-1 w-full max-w-[980px] px-6 md:pl-12 md:pr-6 py-8 md:py-10 flex items-start gap-12">
+          {/* Column 2: Center Main Content */}
+          <main className="w-full max-w-[688px] min-w-0 flex-1">
+            {activeView === 'article' && (
+              <ArticleView
+                parsedPost={currentParsedPost}
+                isLoading={false}
+                onSelectTopic={handleSelectTopic}
+                onPrevArticle={prevArticle ? () => handleSelectArticle(prevArticle.id) : undefined}
+                onNextArticle={nextArticle ? () => handleSelectArticle(nextArticle.id) : undefined}
+                prevTitle={prevArticle?.title}
+                nextTitle={nextArticle?.title}
+              />
             )}
-            {activeView === 'about' && aboutParsedPost && aboutParsedPost.toc.length > 0 && (
-              <TableOfContents items={aboutParsedPost.toc} />
+
+            {activeView === 'about' && (
+              <AboutView aboutPost={aboutParsedPost} />
             )}
-          </div>
+
+            {activeView === 'topics' && (
+              <TopicsView
+                initialTopic={selectedTopicFilter}
+                onSelectArticle={handleSelectArticle}
+                posts={posts}
+              />
+            )}
+          </main>
+
+          {/* Column 3: Right In-Page Navigation (Table of Contents) */}
+          {activeView === 'article' && currentParsedPost && (
+            <TableOfContents items={currentParsedPost.toc} />
+          )}
+          {activeView === 'about' && aboutParsedPost && aboutParsedPost.toc.length > 0 && (
+            <TableOfContents items={aboutParsedPost.toc} />
+          )}
         </div>
       </div>
 
