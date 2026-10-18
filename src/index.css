@@ -212,3 +212,12 @@
     display: block;
   }
 }
+
+.shiki span {
+  color: var(--shiki-light);
+}
+
+.dark .shiki span {
+  color: var(--shiki-dark);
+}
+
