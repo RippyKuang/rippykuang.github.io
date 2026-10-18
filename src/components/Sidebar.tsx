@@ -52,16 +52,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* VitePress Sidebar container:
-          - Always visible on desktop via md:translate-x-0
-          - On wide screens (>=1280px), #f6f6f7 background fills left margin while content is indented to center */}
+      {/* Column 1: Left Sidebar
+          - On desktop (md:), uses sticky in-flow positioning inside the centered flex parent so it NEVER overlaps the article
+          - Pseudo-element `before:` seamlessly extends the #f6f6f7 background into the left margin without outer border lines */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 md:z-20 h-screen bg-[#f6f6f7] dark:bg-[#161618] border-r border-[#e2e2e3] dark:border-[#2e2e32] flex flex-col shrink-0 transition-transform duration-200 ease-in-out select-none w-[260px] pl-6 min-[1280px]:pl-[calc((100vw-1240px)/2+24px)] min-[1280px]:w-[calc((100vw-1240px)/2+260px)] ${
+        className={`fixed md:sticky top-0 left-0 z-50 md:z-20 h-screen w-[260px] bg-[#f6f6f7] dark:bg-[#161618] border-r border-[#e2e2e3] dark:border-[#2e2e32] flex flex-col shrink-0 transition-transform duration-200 ease-in-out select-none px-6 relative before:content-[''] before:hidden md:before:block before:absolute before:inset-y-0 before:right-full before:w-[100vw] before:bg-[#f6f6f7] dark:before:bg-[#161618] before:pointer-events-none ${
           isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* Brand / Logo Title */}
-        <div className="h-[60px] pr-6 flex items-center border-b border-[#e2e2e3] dark:border-[#2e2e32] shrink-0">
+        <div className="h-[60px] flex items-center border-b border-[#e2e2e3] dark:border-[#2e2e32] shrink-0">
           <button
             onClick={() => {
               onNavigateHome();
@@ -76,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Scrollable Tree Area */}
-        <div className="flex-1 overflow-y-auto pr-6 py-4 space-y-5 text-[13.5px]">
+        <div className="flex-1 overflow-y-auto py-4 space-y-5 text-[13.5px]">
           {/* Topic button */}
           <div className="border-b border-[#e2e2e3] dark:border-[#2e2e32] pb-3">
             <button

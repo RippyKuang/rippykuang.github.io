@@ -139,8 +139,8 @@ export default function App() {
   const headerTitle = currentParsedPost?.metadata.title || `败犬日报 ${currentArticleId}`;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] transition-colors">
-      {/* Column 1: Left Sidebar (Always visible on desktop, dynamically indented on wide screens) */}
+    <div className="min-h-screen bg-white dark:bg-[#121316] text-[#262626] dark:text-[#c9d1d9] flex justify-center transition-colors">
+      {/* Column 1: Left Sidebar (260px in-flow sticky column on desktop) */}
       <Sidebar
         currentArticleId={currentArticleId}
         onSelectArticle={handleSelectArticle}
@@ -152,8 +152,9 @@ export default function App() {
         topics={topics}
       />
 
-      {/* Right Content Wrapper: Offsets precisely by the sidebar width */}
-      <div className="w-full min-h-screen flex flex-col md:pl-[260px] min-[1280px]:pl-[calc((100vw-1240px)/2+260px)]">
+      {/* Columns 2 & 3 Wrapper: 980px max-width (48px pad + 688px article + 48px gap + 196px TOC)
+          Together with 260px Sidebar = 1240px total centered 3-column block */}
+      <div className="w-full max-w-[980px] min-w-0 min-h-screen flex flex-col">
         {/* Top Sticky Header */}
         <Header
           currentTitle={headerTitle}
@@ -170,7 +171,7 @@ export default function App() {
         />
 
         {/* Compact Center Article (688px) + 48px gap + Right TOC (196px) */}
-        <div className="flex-1 w-full max-w-[980px] px-6 md:pl-12 md:pr-6 py-8 md:py-10 flex items-start gap-12">
+        <div className="flex-1 w-full px-6 md:pl-12 md:pr-0 py-8 md:py-10 flex items-start gap-12">
           {/* Column 2: Center Main Content */}
           <main className="w-full max-w-[688px] min-w-0 flex-1">
             {activeView === 'article' && (
